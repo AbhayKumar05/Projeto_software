@@ -4,8 +4,8 @@ session_start();
 
 if (isset($_POST['submit'])) {
     // Usamos pg_escape_string para escapar os dados antes de usá-los na query
-    $email = pg_escape_string( $_POST['email']);
-    $pass = pg_escape_string(md5($_POST['password']));
+    $email = pg_escape_string( $conn, $_POST['email']);
+    $pass = pg_escape_string($conn, md5($_POST['password']));
 
     // Query adaptada para PostgreSQL
     $select_users = pg_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$pass'");
