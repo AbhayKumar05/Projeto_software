@@ -1,6 +1,6 @@
 <?php
  include 'config.php';
-/* session_start(); 
+session_start(); 
  $user_id = $_SESSION['user_id'];
 
  if(!isset($user_id)){
@@ -20,7 +20,7 @@
        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
        $message[] = 'Produto adicionado!';
       }
-   }*/
+   }
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,8 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
@@ -48,13 +50,15 @@
             <img src="uploaded_img/hero.png" alt="Book Store Image">
         </div>
         <div class="main_tag">
-            <h3>Bem Vindo a<br><span>Ventorim's Book Store</span></h3>
+             <div class="cormorant-garamond-medium">
+                 <h3>Encontre o Teu<br><span>Próximo Livro</span></h3> 
+            </div>
             <div class="cormorant-garamond-light"> 
             <p id = "hero_p">
-                Bem-vindo à nossa encantadora livraria virtual, um refúgio literário onde as palavras ganham vida e a imaginação se expande sem limites. 
-                Aqui, mergulhe em um universo repleto de páginas cheias de histórias emocionantes, conhecimento profundo e aventuras inesquecíveis.
+                A nossa encantadora livraria virtual, um refúgio literário onde as palavras ganham vida e a imaginação se expande sem limites. 
             </p>
             </div>
+            <button type="submit" id="hero-btn">Explore!</button>
         </div>
     </div>
 </section>
@@ -106,8 +110,8 @@
 
 
 
-   <section class="products"> 
-    <h1 href="shop.php" class="cormorant-garamond-bold">Ultimos Lançamentos</h1> <!--------class='.cormorant-garamond-light'------->
+  <!-- <section class="products"> 
+    <h1 href="shop.php" class="cormorant-garamond-bold">Ultimos Lançamentos</h1> 
      <div class="box-container">
         <?php /*
           $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
@@ -132,10 +136,207 @@
         ?>
      </div>
 
-    <!--<div class="load-more" style="margin-top: 2rem; text-align:center">
+    <div class="load-more" style="margin-top: 2rem; text-align:center">
        <a href="shop.php" class="option-btn">Veja mais</a>
-    </div>-->
- </section>
+    </div>
+ </section>-->
+
+ <!--<section class="carousel">
+    <h1 href="shop.php" class="cormorant-garamond-bold">Últimos Lançamentos</h1>
+    <div class="carousel-container">
+        <div class="carousel-arrow" id="prev">&lt;</div>
+
+        <div class="carousel-items">
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 1">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 1</h3>
+                    <p class="price">€19.99</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 2">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 2</h3>
+                    <p class="price">€24.99</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 3">
+                <div class="carousel-item-info">
+                    <h3>Título do Livro 3</h3>
+                    <p class="price">€17.50</p>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="carousel-arrow" id="next">&gt;</div>
+    </div>
+</section>-->
+
+<section class="carousel">
+    <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
+    <div class="carousel-container">
+        <div class="carousel-items">
+            <!-- Book 1 -->
+            <div class="carousel-item">
+                <img src="images/book__2.jpg" alt="Book 1" class="carousel-image">
+                <div class="carousel-item-info">
+                    <h3>Paleoarctic</h3>
+                    <p class="price">€19.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+            <!-- Book 2 -->
+            <div class="carousel-item">
+                <img src="images/book__1.jpg" alt="Book 2" class="carousel-image">
+                <div class="carousel-item-info">
+                    <h3>The Bass Rock</h3>
+                    <p class="price">€24.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+            <!-- Book 3 -->
+            <div class="carousel-item">
+                <img src="images/book__3.jpg" alt="Book 3" class="carousel-image">
+                <div class="carousel-item-info">
+                    <h3>Peter and the Wolf</h3>
+                    <p class="price">€17.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+            <!-- Book 4 -->
+            <div class="carousel-item">
+                <img src="images/book__4.jpg" alt="Book 4" class="carousel-image">
+                <div class="carousel-item-info">
+                    <h3>Call me by your Name</h3>
+                    <p class="price">€22.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+            <!-- Book 5 -->
+            <div class="carousel-item">
+                <img src="images/home_book3.png" alt="Book 5" class="carousel-image">
+                <div class="carousel-item-info">
+                    <h3>Why women ruled the world</h3>
+                    <p class="price">€20.00</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Book Item -->
+<div class="carousel-item">
+    <img src="images/home_book3.png" alt="Book 1" class="carousel-image" onclick="openModal('Paleoarctic', '€19.99', 'images/home_book3.png', 'This riveting paperback explores the lives of six remarkable female pharaohs, from Hatshepsut to Cleopatra, and shines a piercing light on perceptions of powerful women today. Regularly, repeatedly, and with impunity, queens like Hatshepsut, Nefertiti.')">
+    <div class="carousel-item-info">
+        <h3>Paleoarctic</h3>
+        <p class="price">€19.99</p>
+        <a href="cart.php">
+            <button class="add-to-cart-btn">
+                <span class="material-icons">local_mall</span> Add to Cart
+            </button>
+        </a>   
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-left">
+            <img id="modalImage" class="modal-image" src="" alt="Book Image">
+            <h3 id="modalTitle">Title</h3>
+            <p id="modalPrice" class="modal-price">Price</p>
+        </div>
+        <div class="modal-right">
+            <p id="modalDescription">Description</p>
+            <button class="add-to-cart-btn">
+                <span class="material-icons">local_mall</span> Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Slideshow container 
+<div class="slideshow-container fade">
+
+  <div class="Containers">
+    <div class="info">Slide 1</div>
+    <img src="images/home_book4.png" style="width:10%">
+    <div class="Info">First caption</div>
+  </div>
+
+  <div class="Containers">
+    <div class="info">Slide 2</div>
+    <img src="images/home_book3.png" style="width:10%">
+    <div class="Info">Second Caption</div>
+  </div>
+
+  <div class="Containers">
+    <div class="info">Slide 3</div>
+    <img src="images/home_book4.png" style="width:10%">
+    <div class="Info">Third Caption</div>
+  </div>
+
+
+  <a class="Back" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="forward" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br>-->
+
+
+
 <!--
  <section class="about">
     <div class="flex">
@@ -189,31 +390,87 @@
    <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
    <div class="flex-books">
       <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 1">
-         <p>---TITLE--- 1</p>
+         <img id="home_rec" src="images/book__3.jpg" alt="Book 1">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€22.59</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
       <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 2">
-         <p>---TITLE--- 2</p>
+         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__4.jpg" alt="Book 2">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€17.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
       <div class="book">
          <img id="home_rec" src="images/home_book3.png" alt="Book 3">
-         <p>---TITLE--- 3</p>
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€17.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
    </div>
    
    <div class="flex-books">
       <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 4">
-         <p>---TITLE--- 4</p>
+         <img id="home_rec" src="images/book__2.jpg" alt="Book 4">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€22.59</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
       <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 5">
-         <p>---TITLE--- 5</p>
+         <img id="home_rec" src="images/book__1.jpg" alt="Book 5">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
       <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 6">
-         <p>---TITLE--- 6</p>
+         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__3.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
       </div>
    </div>
 </section>
@@ -227,11 +484,11 @@
     </div>
  </section>
 
-<!--------------------------------------------        Book Recomendation List here       ----------------------------------------------->
-
  <?php include 'footer.php'; ?>
 
+
  <script src="js/script.js"></script>
+ <script src="js/home.js"></script>
 
 </body>
 </html>

@@ -93,7 +93,8 @@ section{
    margin-bottom: 2rem;
    text-transform: uppercase;
    color:var(--black);
-   font-size: 2rem;
+   font-family: 'Playfair Display', serif;
+   font-size: 2.3rem;
 }
 
 .btn,
@@ -111,18 +112,13 @@ section{
 }
 
 
-.option-btn:hover,
-.delete-btn:hover{
-   background-color: var(--black);
-}
-
 .white-btn{
    background-color: #001d34;
    border-radius: 1rem;
 }
 .btn{
    background-color: #001d34;
-   border-radius: 1rem;
+   border-radius: 0.5rem;
    width: 60%;
 }
 
@@ -131,7 +127,7 @@ section{
 }
 
 .delete-btn{
-   background-color: var(--red);
+   background-color: #c40000;
 }
 
 
@@ -142,7 +138,7 @@ section{
    align-items: center;
    justify-content: center;
    gap:1rem;
-   background: url(../images/fundo\ 01.png) no-repeat;
+   background-image: url(../images/image.png);
    background-size: cover;
    background-position: center;
    text-align: center;
@@ -318,8 +314,8 @@ section{
 
 .header .header-2 .flex .navbar a{
    margin:0 1.3rem;
-   font-size: 1.8rem;
-   color:var(--light-color);
+   font-size: 1.55rem;
+   color:#001d34;
 }
 
 .header .header-2 .flex .navbar a:hover{
@@ -327,7 +323,7 @@ section{
 }
 
 .header .header-2 .flex .icons > *{
-   font-size: 2.5rem;
+   font-size: 1.7rem;
    color:var(--black);
    cursor: pointer;
    margin-left: 1.5rem;
@@ -375,7 +371,7 @@ section{
 
 /*home*/
 .home {
-   height: 45vh;
+   height: 43vh; /*------45-----*/
    background: #fcfcfc;
    background-size: cover;
    background-position: center;
@@ -406,6 +402,7 @@ section{
 .main_image img {
    width: 100%; 
    height: auto;
+   padding-bottom: 12px;
 }
 
 .main_tag {
@@ -416,12 +413,14 @@ section{
 
 .home .main h3 {
    font-size: 40px;
-   color: #ecd6c0;
+   color: #032040;
    margin: 0; 
+   font-family: 'Playfair Display', serif;
 }
 
 .home .main h3 span {
-   color: #e2e2e2;
+   color: #032040;
+   font-family: 'Playfair Display', serif;
 }
 
 .home .main p {
@@ -464,8 +463,6 @@ section{
    border-bottom: 1px solid #ccc; 
 }
 
-
-
 .services .services_box .services_card {
    text-align: left;
    /* width: 310px; */
@@ -473,22 +470,6 @@ section{
    /* box-shadow: 0 0 8px #6D5B5B; */
    padding: 15px 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .services .services_box .services_card i {
    color: #b40000;
@@ -1091,7 +1072,6 @@ section{
    margin-top: 2rem;
 }
 
-
 .checkout form .btn {
    width: 20%;
    padding: 1.4rem 0;
@@ -1278,13 +1258,13 @@ section{
 .footer .box-container .box a{
    display: block;
    font-size: 1.7rem;
-   color: #bf9780;
+   color: #001d34;
    padding:1rem 0;
 }
 
 .footer .box-container .box p i,
 .footer .box-container .box a i{
-   color: #c57d56;
+   color: #001d34;
    padding-right: .5rem;
 }
 
@@ -1523,7 +1503,7 @@ services_card*/
 
 
  
-.home_service {
+/*.home_service {
    padding: 50px 0;
    background-color: #f8f8f8; 
 }
@@ -1532,6 +1512,19 @@ services_card*/
    width: 100%;
    padding: 20px 0;
    background-color: #f8f8f8;
+}*/
+
+.home_service {
+   padding: 50px 0;
+   background-color: #00111f; 
+   color: white;
+}
+
+.full-width-services {
+   width: 100%;
+   padding: 20px 0;
+   color: white;
+   background-color: #00111f;
 }
 
 .services-row {
@@ -1567,7 +1560,7 @@ services_card*/
 
 .service-content p {
    font-size: 14px;
-   color: #333;
+   color: #ffffff;
 }
 
 
@@ -1593,11 +1586,13 @@ services_card*/
 
 .second-image img {
    z-index: 2;
+   filter: drop-shadow(0px 0px 10px #000000);
    height: 380px; 
 }
 
 .first-image img {
    z-index: 3;
+   filter: drop-shadow(0px 0px 5px #000000);
    height: 340px;
 }
 
@@ -1611,6 +1606,7 @@ services_card*/
    width: 90%;
    margin: 0 auto;  
    margin-top: 0;
+   margin-bottom: 15px;
    margin-left: 40px;
    background-color: #f8f8f8; 
 }
@@ -1695,11 +1691,6 @@ services_card*/
    margin-top: 10px;
 }
  */
-
-
-
-
-
 
 /*---------------  REGISTER ------------*/
 .register-page {
@@ -1844,6 +1835,7 @@ services_card*/
    text-decoration: underline;
 }
 
+
 .recommendations {
    text-align: center;
    padding: 20px;
@@ -1851,24 +1843,358 @@ services_card*/
 
 .flex-books {
    display: flex;
-   justify-content: space-between;
-   flex-wrap: wrap; 
-   gap: 10px; 
+   flex-wrap: wrap;
+   justify-content: center; 
+   gap: 10px;
    margin-bottom: 20px;
 }
 
 .book {
-   width: 30%; 
+   width: 23%; /* Fits 4 books per row */
    text-align: center;
 }
 
+
+
+.book button {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: black;
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   font-size: 11px;
+   cursor: pointer;
+   margin-top: 6px;
+   margin-left: auto;
+   margin-right: auto;
+   margin-bottom: 5px;
+}
+
+
 #home_rec {
-   width: 80px;  
-   height: auto;  
+   width: auto; 
+   height: 290px; 
+   object-fit: cover;
    margin-bottom: 10px;
 }
 
 .book p {
    font-size: 16px;
    text-align: center;
+}
+
+
+
+
+
+
+
+/*
+.carousel {
+   position: relative;
+   width: 100%;
+   margin-bottom: 20px;
+   overflow: hidden;
+   justify-content: space-between;
+}
+
+.carousel-title {
+   text-align: center;
+   font-size: 24px;
+   margin: 20px 0;
+}
+
+.carousel-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.carousel-items {
+   display: flex;
+   transition: transform 0.3s ease;
+   width: calc(100% + 30px); 
+}
+
+.carousel-item {
+   width: 100px; 
+   margin: 0 10px; 
+   box-sizing: border-box;
+}
+
+.carousel-image {
+   height: 150px;
+}
+
+.carousel-arrow {
+   cursor: pointer;
+   padding: 10px;
+   font-size: 24px;
+   user-select: none;
+   z-index: 1;
+}
+
+#prev {
+   position: absolute;
+   left: 10px;
+}
+
+#next {
+   position: absolute;
+   right: 10px;
+}
+*/
+
+
+
+.carousel {
+   text-align: center;
+   margin-bottom: 20px;
+   margin-top: 25px;
+}
+
+.carousel-container {
+   display: flex;
+   justify-content: center; 
+}
+
+.carousel-items {
+   display: flex;
+   justify-content: space-between;
+}
+
+.carousel-item {
+   margin: 0 30px;
+   text-align: start;
+}
+
+.carousel-image {
+   width: auto; 
+   height: 290px; 
+   object-fit: cover;
+}
+
+.carousel-item-info h3{
+   margin-top: 4px;
+   font-family: 'Playfair Display', serif;
+}
+
+.price {
+   color: #bb1a1a;
+   padding-top: 2px;
+   font-size: 15px;
+   font-family: 'Playfair Display', serif;
+}
+
+.add-to-cart-btn {
+   display: flex;
+   align-items: center;
+   background-color: black;
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   font-size: 11px;
+   cursor: pointer;
+   margin-top: 6px;
+}
+
+.add-to-cart-btn .material-icons {
+   margin-right: 8px;
+   font-size: 14px;
+}
+
+
+/*
+* {box-sizing:border-box}
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.Containers {
+  display: none;
+}
+
+.Back, .forward {
+  cursor: pointer;
+  position: absolute;
+  top: 48%;
+  width: auto;
+  margin-top: -23px;
+  padding: 17px;
+  color: grey;
+  font-weight: bold;
+  font-size: 19px;
+  transition: 0.4s ease;
+  border-radius: 0 5px 5px 0;
+  user-select: none;
+}
+
+.forward {
+  right: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+.Back:hover, .forward:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.info {
+  color: #e3e3e3;
+  font-size: 16px;
+  padding: 10px 14px;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.info {
+  color: #f2f2f3;
+  font-size: 14px;
+  padding: 10px 14px;
+  position: absolute;
+  top: 0;
+}
+
+.dots {
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  margin: 0 3px;
+  background: linear-gradient(92.18deg, #a049e9 -25.78%, #6643db 123.02%);
+  opacity: 0.3;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.5s ease;
+}
+
+.enable, .dots:hover {
+  background: linear-gradient(92.18deg, #a049e9 -25.78%, #6643db 123.02%);
+  opacity: 1;
+}
+
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.4s;
+  animation-name: fade;
+  animation-duration: 1.4s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .5}
+  to {opacity: 2}
+}
+
+@keyframes fade {
+  from {opacity: .5}
+  to {opacity: 2}
+}*/
+
+/* ---------------- hero section button ----------------*/
+#hero-btn{
+   width: 15%;
+   padding: 1.4rem 0;
+   background-color: var(--light-white);
+   color: #fff;
+   font-size: 1.5rem;
+   align-items: center;
+   justify-content: center;
+   border-radius: 0.8rem;
+   cursor: pointer;
+}
+
+
+
+/*------------------ POP UP -----------------------------*/
+.modal {
+   display: none; 
+   position: fixed;
+   z-index: 1000;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.modal-content {
+   position: relative;
+   background-color: #fff;
+   margin: 10% auto;
+   padding: 20px;
+   width: 80%;
+   max-width: 600px; 
+   display: flex; 
+   flex-direction: row; 
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal-left {
+   width: 50%; 
+   text-align: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.modal-image {
+   width: auto;
+   height: 290px;
+   object-fit: cover;
+   margin-bottom: 15px;
+}
+
+.modal h3 {
+   margin-top: 8px;
+   font-size: medium;
+   font-family: 'Playfair Display', serif;
+}
+
+.modal-price {
+   color: #bb1a1a;
+   padding-top: 2px;
+   font-size: 15px;
+   font-family: 'Playfair Display', serif;
+}
+
+
+.modal-right {
+   width: 50%; 
+   padding-left: 15px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+#modalDescription {
+   font-size: 14px;
+   color: #000000;
+   padding: 5px;
+   margin-bottom: 15px;
+   text-align: left;
+   font-family: 'Playfair Display', serif;
+}
+
+.add-to-cart-btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+
+.close-btn {
+   position: absolute;
+   top: 10px;
+   right: 15px;
+   font-size: 24px;
+   color: #727070;
+   cursor: pointer;
 }

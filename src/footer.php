@@ -4,7 +4,7 @@
          <h3>Contatos</h3>
          <p> <i class="fas fa-phone"></i> +351 123 456 789 </p>
          <p> <i class="fas fa-phone"></i> +94 32 444 699 </p>
-         <p> <i class="fas fa-envelope"></i> bookstore123@gmail.com </p>
+         <p> <i class="fas fa-envelope"></i> magnaopus@gmail.com </p>
       </div>
       <div class="box">
          <h3>Redes Sociais</h3>
@@ -15,15 +15,16 @@
       </div>
       <div class="box">
          <h3>Links</h3>
-         <a href="index.php">Blog </a>
          <a href="about.php">About us </a>
          <a href="contact.php">Contacto </a>
+         <a href="register.php">Registo </a>
+         <a href="cart.php">Carrinho </a>
       </div>
 
    </div>
    <hr>
    <div class="copyright">
-      <p>© Ventorim's Book 2025. Todos os direitos reservados.</p>
+      <p>© Magna Opus 2025. Todos os direitos reservados.</p>
    </div>
 
 </section>

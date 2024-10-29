@@ -1,16 +1,17 @@
-<?php
-/* $conn = mysqli_connect('localhost','root','','shop_db') or die('connection failed'); */
+ <?php /*
+// Database connection details
+$host = 'localhost';
+$port = '8889'; // MAMP MySQL port
+$dbname = 'shop_db';
+$user = 'root';
+$password = 'root';
 
-// Configurações do PostgreSQL
-$host = "localhost";
-$dbname = "shop_db";
-$user = "postgres";  // The postgres role you're using
-$password = "root";  // The password you set
+// Establish the MySQL connection
+$conn = new mysqli($host, $user, $password, $dbname, $port);
 
-
-// Criar a conexão
-$connection = pg_connect("host=$host dbname=$dbname user=$user password=$password");
-
-if (!$connection) {
-    die("Erro: Não foi possível conectar ao banco de dados PostgreSQL.");
-} ?>
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}*/
+$conn = mysqli_connect('localhost','root','root','shop_db') or die('connection failed');
+?>

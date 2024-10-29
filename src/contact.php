@@ -45,7 +45,7 @@
             <h3>Contacte-nos</h3>
             <input type="text" name="name" required placeholder="Insira seu Nome" class="box">
             <input type="email" name="email" required placeholder="Insira seu Email" class="box">
-            <input type="number" name="number" required placeholder="Insira seu Número" class="box">
+            <!--<input name="number" required placeholder="Insira seu Número" class="box">-->
             <textarea name="message" class="box" placeholder="Mensagem" cols="30" rows="10"></textarea>
             <input type="submit" value="Envie" name="send" class="btn">
          </form>
@@ -56,7 +56,7 @@
          <h3>Como podemos ajudar?</h3>
          <p>Estamos sempre disponíveis para responder às suas dúvidas e prestar assistência no que for necessário. Sinta-se à vontade para nos contactar!</p>
          <h3>Visite-nos</h3>
-         <p>Email: contacto@ventorimlivros.pt</p>
+         <p>Email: magnaopus@gmail.com</p>
          <p>Telefone: +351 210 123 456</p>
          <h3>Perguntas Frequentes</h3>
          <p>Veja a nossa secção de <a href="about.php">FAQ</a> para respostas rápidas a dúvidas comuns.</p>
