@@ -589,14 +589,6 @@ section{
    flex-wrap: wrap;
 }
 
-.about .flex .image{
-   flex:1 1 0.5rem;
-}
-
-.about .flex .image img{
-   width: 100%;
-}
-
 .about .flex .content{
    flex:1 1 40rem;
    padding:2rem;
@@ -606,6 +598,7 @@ section{
    font-size: 3rem;
    color:var(--black);
    text-transform: uppercase;
+   font-family: 'Playfair Display', serif;
 }
 
 .about .flex .content p{
@@ -1235,6 +1228,7 @@ section{
 .footer{
    background-color: #f9f9f9;
    margin-top: 10px;
+   font-family: 'Playfair Display', serif;
 }
 
 .footer .box-container{
@@ -1243,21 +1237,22 @@ section{
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
    gap:3rem;
-   margin-bottom: 10px;
+   margin-bottom: 15px;
 }
 
 .footer .box-container .box h3{
    text-transform: uppercase;
    color:var(--black);
-   font-size: 1.5rem;
+   font-size: 1.7rem;
    padding-bottom: 2.5rem;
    padding-top: 1rem;
+   font-family: 'Playfair Display', serif;
 }
 
 .footer .box-container .box p,
 .footer .box-container .box a{
    display: block;
-   font-size: 1.7rem;
+   font-size: 1.4rem;
    color: #001d34;
    padding:1rem 0;
 }
@@ -1360,6 +1355,7 @@ hr {
    margin-bottom: 6px; 
    font-size: 15px; 
    color: #242424; 
+
 }
 
 .faq-question i {
@@ -1373,6 +1369,7 @@ hr {
 .faq-question .fa-chevron-down {
    margin-left: 10px;
 }
+ 
 
 .faq-left {
    display: flex; 
@@ -1393,6 +1390,7 @@ hr {
    font-size: 16px; 
    color: #555; 
    margin-top: 25px; 
+   font-family: 'Playfair Display', serif;
 }
 
 @media (max-width: 768px) {
@@ -1805,7 +1803,6 @@ services_card*/
 
 .form-wrapper form h3.cormorant-garamond-light {
    font-size: 1.2rem;
-   margin-bottom: 2rem;
    font-family: 'Cormorant Garamond', serif;
    color: #555;
 }
@@ -1850,11 +1847,9 @@ services_card*/
 }
 
 .book {
-   width: 23%; /* Fits 4 books per row */
+   width: 23%;
    text-align: center;
 }
-
-
 
 .book button {
    display: flex;
@@ -1877,75 +1872,12 @@ services_card*/
    width: auto; 
    height: 290px; 
    object-fit: cover;
-   margin-bottom: 10px;
 }
 
 .book p {
    font-size: 16px;
    text-align: center;
 }
-
-
-
-
-
-
-
-/*
-.carousel {
-   position: relative;
-   width: 100%;
-   margin-bottom: 20px;
-   overflow: hidden;
-   justify-content: space-between;
-}
-
-.carousel-title {
-   text-align: center;
-   font-size: 24px;
-   margin: 20px 0;
-}
-
-.carousel-container {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-.carousel-items {
-   display: flex;
-   transition: transform 0.3s ease;
-   width: calc(100% + 30px); 
-}
-
-.carousel-item {
-   width: 100px; 
-   margin: 0 10px; 
-   box-sizing: border-box;
-}
-
-.carousel-image {
-   height: 150px;
-}
-
-.carousel-arrow {
-   cursor: pointer;
-   padding: 10px;
-   font-size: 24px;
-   user-select: none;
-   z-index: 1;
-}
-
-#prev {
-   position: absolute;
-   left: 10px;
-}
-
-#next {
-   position: absolute;
-   right: 10px;
-}
-*/
 
 
 
@@ -1979,6 +1911,7 @@ services_card*/
 .carousel-item-info h3{
    margin-top: 4px;
    font-family: 'Playfair Display', serif;
+   font-weight: 100;
 }
 
 .price {
@@ -2197,4 +2130,9 @@ services_card*/
    font-size: 24px;
    color: #727070;
    cursor: pointer;
+}
+
+#googletext{
+   font-size: x-small;
+   padding-bottom: 1rem;
 }

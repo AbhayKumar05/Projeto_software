@@ -29,9 +29,6 @@ if(!isset($user_id)){
 
 <section class="about">
    <div class="flex">
-      <div class="image">
-         <img src="images/Convite Clube do livro2.png" alt="">
-      </div>
 
       <div class="content">
          <h3>Porque nós?</h3>

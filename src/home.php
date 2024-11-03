@@ -141,74 +141,6 @@ session_start();
     </div>
  </section>-->
 
- <!--<section class="carousel">
-    <h1 href="shop.php" class="cormorant-garamond-bold">Últimos Lançamentos</h1>
-    <div class="carousel-container">
-        <div class="carousel-arrow" id="prev">&lt;</div>
-
-        <div class="carousel-items">
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 1">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 1</h3>
-                    <p class="price">€19.99</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 2">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 2</h3>
-                    <p class="price">€24.99</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 3">
-                <div class="carousel-item-info">
-                    <h3>Título do Livro 3</h3>
-                    <p class="price">€17.50</p>
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="carousel-arrow" id="next">&gt;</div>
-    </div>
-</section>-->
 
 <section class="carousel">
     <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
@@ -274,7 +206,7 @@ session_start();
 </section>
 
 
-<!-- Book Item -->
+<!-- Working pop-up -->
 <div class="carousel-item">
     <img src="images/home_book3.png" alt="Book 1" class="carousel-image" onclick="openModal('Paleoarctic', '€19.99', 'images/home_book3.png', 'This riveting paperback explores the lives of six remarkable female pharaohs, from Hatshepsut to Cleopatra, and shines a piercing light on perceptions of powerful women today. Regularly, repeatedly, and with impunity, queens like Hatshepsut, Nefertiti.')">
     <div class="carousel-item-info">
@@ -288,7 +220,7 @@ session_start();
     </div>
 </div>
 
-<!-- Modal -->
+<!-- POP-UP -->
 <div id="bookModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -307,52 +239,6 @@ session_start();
 </div>
 
 
-
-<!-- Slideshow container 
-<div class="slideshow-container fade">
-
-  <div class="Containers">
-    <div class="info">Slide 1</div>
-    <img src="images/home_book4.png" style="width:10%">
-    <div class="Info">First caption</div>
-  </div>
-
-  <div class="Containers">
-    <div class="info">Slide 2</div>
-    <img src="images/home_book3.png" style="width:10%">
-    <div class="Info">Second Caption</div>
-  </div>
-
-  <div class="Containers">
-    <div class="info">Slide 3</div>
-    <img src="images/home_book4.png" style="width:10%">
-    <div class="Info">Third Caption</div>
-  </div>
-
-
-  <a class="Back" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="forward" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<br>-->
-
-
-
-<!--
- <section class="about">
-    <div class="flex">
-       <div class="image">
-          <img src="images/Ventorim's Book Store.png" alt="">
-       </div>
-
-       <div class="content">
-            <h1 class="cormorant-garamond-bold">Sobre Nós</h1>  
-          <p>Nossa livraria é um oásis para todos os amantes da leitura, um lugar onde cada livro é uma porta para novos horizontes. 
-            Buscamos sempre proporcinar a melhor experiencia para nossos leitores.</p>
-          <a href="about.php" class="white-btn">Veja Mais</a>
-       </div>
-    </div> 
- </section>
--->
  <section class="image-section">
    <div class="image-container first-image">
       <img src="images/home_book4.png" alt="First Image">
@@ -366,25 +252,11 @@ session_start();
 </section>
 
 
-<!-- Our Story Section -->
 <section class="our-story-section">
    <h1>Our Story - A Nossa História</h1>
    <p>Na Ventorim's Book Store, acreditamos que os livros têm o poder de transformar vidas. Somos mais do que uma livraria; somos um espaço onde a imaginação não tem limites e cada página vira uma nova descoberta.</p>
    <p>Fundada com o objetivo de aproximar leitores de todo o mundo, oferecemos uma vasta seleção de títulos que despertam emoções, desafiam perspectivas e promovem o conhecimento. Cada livro é escolhido com cuidado, garantindo uma experiência única a cada leitura. Seja para explorar os grandes clássicos, descobrir novos talentos ou aprofundar o seu conhecimento, a nossa missão é proporcionar momentos inesquecíveis através do prazer da leitura. Venha fazer parte desta jornada connosco.</p>
 </section>
-
-<!--<div class="right-section">
-        <section class="newsletter-section">
-            <h2>Fique Conectado!</h2>
-            <p>Inscreva-se na nossa newsletter para receber as últimas novidades, promoções e muito mais diretamente no seu email.</p>
-            <form action="subscribe.php" method="post" class="newsletter-form">
-                <input type="email" name="email" placeholder="Digite o seu email" required>
-                <button type="submit" class="btn">Subscrever</button>
-            </form>
-            <p class="small-text">Não enviamos spam. Pode cancelar a subscrição a qualquer momento.</p>
-        </section>
-</div>-->
-
 
  <section class="recommendations">
    <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
