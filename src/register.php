@@ -71,7 +71,7 @@
     <img src="images/register.jpg" alt="Registration Image" id="reg_image">
     <div class="image-text-box">
       <h3>Descubra Novos Mundos</h3>
-      <p>Com a Ventorim's Book Store, sua próxima grande leitura está a apenas um clique.</p>
+      <p>Com Magna Opus, sua próxima grande leitura está a apenas um clique.</p>
     </div>
   </div>
 </div>

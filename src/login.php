@@ -1,6 +1,6 @@
 <?php
-include 'config.php';
 session_start();
+include 'config.php';
 
 if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -14,12 +14,14 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_email'] = $row['email'];
         $_SESSION['user_id'] = $row['id'];
 
-        header('location:home.php');
+        header('Location: home.php');
+        exit();
     } else {
         $message[] = 'Incorrect email or password!';
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +49,6 @@ if (isset($_POST['submit'])) {
       }
    ?>
 <div class="login-container">
-  <!-- Form container for the login form -->
   <div class="form-wrapper">
     <form action="" method="post">
       <h3 class="cormorant-garamond-bold">Inicie Sessão</h3>

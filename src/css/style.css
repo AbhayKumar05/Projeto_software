@@ -2133,6 +2133,7 @@ services_card*/
 }
 
 #googletext{
-   font-size: x-small;
+   font-size: small;
+   color: #626262;
    padding-bottom: 1rem;
 }
