@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  php-backend:
+    build: .
+    container_name: php-backend
+    ports:
+      - "8080:80"  # Mapeando a porta 80 do container para a 8080 no host
+    depends_on:
+      - mysql-db
+    networks:
+      - shop-network
+
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: shop_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"  # Mapeando a porta 3306 para conectar ao MySQL
+    networks:
+      - shop-network
+
+networks:
+  shop-network:
+    driver: bridge
