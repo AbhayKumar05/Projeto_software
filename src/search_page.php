@@ -12,10 +12,10 @@
     $product_quantity = $_POST['product_quantity'];
     $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
     if(mysqli_num_rows($check_cart_numbers) > 0){
-       $message[] = 'already added to cart!';
+       $message[] = 'Already added to cart!';
      }else{
        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
-       $message[] = 'product added to cart!';
+       $message[] = 'Product added to cart!';
       }
    };
 ?>
@@ -28,17 +28,20 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Pesquisa</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
  <?php include 'header.php'; ?>
  <div class="heading">
-    <h3>Pagina de Busca</h3>
+    <h3>Pagina de Pesquisa</h3>
     <p> <a href="home.php">Home</a> / Busca </p>
  </div>
  <section class="search-form">
     <form action="" method="post">
-       <input type="text" name="search" placeholder="Busque pelo Livro que quer..." class="box">
+       <input type="text" name="search" placeholder="Pesquisar Livro..." class="box">
        <input type="submit" name="submit" value="Pesquisar" class="btn">
     </form>
  </section>
@@ -64,7 +67,7 @@
                    <?php
                  }
               }else{
-                echo '<p class="empty">Sem resultado!</p>';
+                echo '<p class="empty">Sem resultados!</p>';
               }
            }else{
              echo '<p class="empty">Procure pelo seu livro!</p>';

@@ -1,46 +1,29 @@
 <?php
-
-include 'config.php';
-session_start();
-
-if (isset($_POST['submit'])) {
-    // Usamos pg_escape_string para escapar os dados antes de usá-los na query
-    $name = pg_escape_string($conn, $_POST['name']);
-    $email = pg_escape_string($conn, $_POST['email']);
-    $pass = pg_escape_string($conn, $_POST['password']);
-    $cpass = pg_escape_string($conn, $_POST['cpassword']);
-    $user_type = pg_escape_string($conn, $_POST['user_type']);
-
-    // Verifica se o usuário já existe
-    $select_users = pg_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$pass'");
-
-    if (!$select_users) {
-        die('Query failed: ' . pg_last_error());
-    }
-
-    if (pg_num_rows($select_users) > 0) {
-        $message[] = 'User already exists!';
-    } else {
-        if ($pass != $cpass) {
-            $message[] = 'Confirm password does not match!';
-        } else {
-            // Insere o novo usuário no banco de dados
-            $insert_query = "INSERT INTO users (name, email, password, user_type) VALUES ('$name', '$email', '$cpass', '$user_type')";
-            $insert_result = pg_query($conn, $insert_query);
-
-            if (!$insert_result) {
-                die('Query failed: ' . pg_last_error());
-            } else {
-                $message[] = 'Registered successfully!';
-                header('Location: login.php');
-            }
-        }
-    }
-}
+ include 'config.php';
+ if(isset($_POST['submit'])){
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
+    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
+    $select_users = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$pass'") or die('query failed');
+    if(mysqli_num_rows($select_users) > 0){
+       $message[] = 'user already exist!';
+     }else{
+        if($pass != $cpass){
+          $message[] = 'confirm password not matched!';
+         }else{
+           mysqli_query($conn, "INSERT INTO users(name, email, password) VALUES('$name', '$email', '$cpass')") or die('query failed');
+           $message[] = 'registered successfully!';
+           header('location:login.php');
+         }
+      }
+   }
 ?>
 
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -78,7 +61,7 @@ if (isset($_POST['submit'])) {
       <input type="email" name="email" placeholder="Insira seu Email" required class="box">
       <input type="password" name="password" placeholder="Insira sua Password" required class="box">
       <input type="password" name="cpassword" placeholder="Confirme a Password" required class="box">
-      <input type="submit" name="submit" value="Enviar" class="btn">
+      <input type="submit" name="submit" value="Entrar" class="btn">
       <p>Já tem conta? <a href="login.php">Login</a></p>
     </form>
   </div>
@@ -88,7 +71,7 @@ if (isset($_POST['submit'])) {
     <img src="images/register.jpg" alt="Registration Image" id="reg_image">
     <div class="image-text-box">
       <h3>Descubra Novos Mundos</h3>
-      <p>Com a Ventorim's Book Store, sua próxima grande leitura está a apenas um clique.</p>
+      <p>Com Magna Opus, sua próxima grande leitura está a apenas um clique.</p>
     </div>
   </div>
 </div>
