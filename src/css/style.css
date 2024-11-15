@@ -343,10 +343,8 @@ section{
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
-   border:var(--border);
    padding:2rem;
    text-align: center;
-   width: 30rem;
    display: none;
    animation: fadeIn .2s linear;
 }
@@ -356,8 +354,8 @@ section{
 }
 
 .header .header-2 .flex .user-box p{
-   font-size: 2rem;
-   color:var(--light-color);
+   font-size: 1.4rem;
+   color: black;
    margin-bottom: 1.5rem;
 }
 

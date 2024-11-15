@@ -192,13 +192,15 @@ session_start();
             </div>
             <!-- Book 5 -->
             <div class="carousel-item">
-                <img src="images/home_book3.png" alt="Book 5" class="carousel-image">
+                <img src="images/home_book3.png" alt="Book 1" class="carousel-image" onclick="openModal('Paleoarctic', '€19.99', 'images/home_book3.png', 'This riveting paperback explores the lives of six remarkable female pharaohs, from Hatshepsut to Cleopatra, and shines a piercing light on perceptions of powerful women today. Regularly, repeatedly, and with impunity, queens like Hatshepsut, Nefertiti.')">
                 <div class="carousel-item-info">
-                    <h3>Why women ruled the world</h3>
-                    <p class="price">€20.00</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
+                    <h3>Paleoarctic</h3>
+                    <p class="price">€19.99</p>
+                    <a href="cart.php">
+                        <button class="add-to-cart-btn">
+                            <span class="material-icons">local_mall</span> Add to Cart
+                        </button>
+                    </a>   
                 </div>
             </div>
         </div>
@@ -206,7 +208,7 @@ session_start();
 </section>
 
 
-<!-- Working pop-up -->
+<!-- Working pop-up 
 <div class="carousel-item">
     <img src="images/home_book3.png" alt="Book 1" class="carousel-image" onclick="openModal('Paleoarctic', '€19.99', 'images/home_book3.png', 'This riveting paperback explores the lives of six remarkable female pharaohs, from Hatshepsut to Cleopatra, and shines a piercing light on perceptions of powerful women today. Regularly, repeatedly, and with impunity, queens like Hatshepsut, Nefertiti.')">
     <div class="carousel-item-info">
@@ -218,7 +220,7 @@ session_start();
             </button>
         </a>   
     </div>
-</div>
+</div>-->
 
 <!-- POP-UP -->
 <div id="bookModal" class="modal">
