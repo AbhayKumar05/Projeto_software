@@ -2060,7 +2060,7 @@ services_card*/
    padding: 20px;
    width: 80%;
    max-width: 600px; 
-   display: flex; 
+   display: grid; /* or remove it*/
    flex-direction: row; 
    border-radius: 8px;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -2079,7 +2079,7 @@ services_card*/
    width: auto;
    height: 290px;
    object-fit: cover;
-   margin-bottom: 15px;
+   margin-bottom: 3px;
 }
 
 .modal h3 {
@@ -2111,8 +2111,82 @@ services_card*/
    padding: 5px;
    margin-bottom: 15px;
    text-align: left;
-   font-family: 'Playfair Display', serif;
 }
+
+/*
+.recommended-books {
+   margin-top: 20px;
+   text-align: center; 
+}
+
+.recommended-items {
+   display: flex;
+   justify-content: center;
+   gap: 10px; 
+}
+
+.recommended-item {
+   flex: 1; 
+   max-width: 80%; 
+}
+
+.recommended-image {
+   width: auto;
+   height: 290px;
+   object-fit: cover;
+}*/
+
+.modal-main {
+   display: flex; 
+   flex-wrap: wrap; 
+}
+
+.modal-left,
+.modal-right {
+   flex: 1; 
+   padding: 10px; 
+   box-sizing: border-box; 
+}
+
+.recommended-books {
+   width: 100%; 
+   margin-top: 20px; 
+   text-align: center; 
+   display: grid;
+}
+
+#bookrec{
+   font-family: 'Playfair Display', serif;
+   padding-bottom: 10px;
+   font-size: small;
+   color: #a1a1a1;
+}
+
+.recommended-items {
+   display: flex; 
+   justify-content: center; 
+   gap: 15px; 
+   flex-wrap: wrap; 
+}
+
+.recommended-item {
+   flex: 0 0 100px; 
+   max-width: 100px;
+}
+
+#modaltexts{
+   font-family: 'Playfair Display', serif;
+   font-size: small;
+   font-weight: 100;
+}
+
+.recommended-image {
+   width: auto;
+   height: 160px;
+   object-fit: cover; 
+   border-radius: 4px; 
+}
+
 
 .add-to-cart-btn {
    display: flex;
@@ -2129,6 +2203,77 @@ services_card*/
    color: #727070;
    cursor: pointer;
 }
+
+.add-cart-btn{
+   display: flex;
+   align-items: center;
+   background-color: black;
+   color: white;
+   border: none;
+   padding: 7px 10px;
+   font-size: 8px;
+   cursor: pointer;
+   margin-top: 3px;
+}
+
+.add-cart-btn .material-icons {
+   margin-right: 8px;
+   font-size: 12px;
+}
+
+
+
+/*
+
+.related-books-container {
+   width: 10%;
+   margin-top: 20px;
+}
+
+.related-books-container h4 {
+   text-align: left;
+   font-size: 16px;
+   font-family: 'Playfair Display', serif;
+   margin-bottom: 10px;
+}
+
+.related-books {
+   display: flex;
+   justify-content: space-between;
+   gap: 10px;
+}
+
+.book {
+   flex: 1;
+   text-align: center;
+   font-family: 'Playfair Display', serif;
+}
+
+.book img {
+   width: auto;
+   height: 290px;
+   object-fit: cover;
+   border-radius: 4px;
+   margin-bottom: 5px;
+}
+
+.book-title {
+   font-size: 13px;
+   margin: 5px 0;
+}
+
+.book-price {
+   font-size: 12px;
+   color: #bb1a1a;
+}
+*/
+
+
+
+
+
+
+
 
 #googletext{
    font-size: small;

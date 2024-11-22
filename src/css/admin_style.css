@@ -64,10 +64,9 @@ section{
 .empty{
    padding:1.5rem;
    text-align: center;
-   border:var(--border);
-   background-color: var(--white);
    background-color: #c40000;
    font-size: 2rem;
+   color: white;
    border-radius: 5px;
 }
 
@@ -276,7 +275,7 @@ section{
 .dashboard .box-container .box p{
    margin-top: 1.5rem;
    padding:1.5rem;
-   background-color: #453e3e;
+   background-color: #001d34;
    color:white;
    font-size: 1.4rem;
    border-radius: .5rem;
@@ -311,7 +310,6 @@ section{
    padding:1.2rem 1.4rem;
    color:var(--black);
    font-size: 1.8rem;
-   border:var(--border);
 }
 
 /*produto*/

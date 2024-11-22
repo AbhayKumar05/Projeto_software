@@ -222,7 +222,7 @@ session_start();
     </div>
 </div>-->
 
-<!-- POP-UP -->
+<!-- POP-UP 
 <div id="bookModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -238,7 +238,80 @@ session_start();
             </button>
         </div>
     </div>
+</div>-->
+
+
+<!-- POP-UP -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+
+        <!-- Main content: left and right sections -->
+        <div class="modal-main">
+            <div class="modal-left">
+                <img id="modalImage" class="modal-image" src="" alt="Book Image">
+                <h3 id="modalTitle">Title</h3>
+                <p id="modalPrice" class="modal-price">Price</p>
+            </div>
+            <div class="modal-right">
+                <p id="modalDescription">Description</p>
+                <button class="add-to-cart-btn">
+                    <span class="material-icons">local_mall</span> Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="recommended-books">
+            <h4 id="bookrec">Livros recomendados</h4>
+            <div class="recommended-items">
+                <div class="recommended-item">
+                    <img src="images/book__2.jpg" alt="Book 1" class="recommended-image">
+                    <h4 id="modaltexts">Paleoarctic</h4>
+                    <p class="price" id="modaltexts">€19.99</p>
+                    <a href="cart.php">
+                        <button class="add-cart-btn">
+                            <span class="material-icons">local_mall</span> Add to Cart
+                        </button>
+                    </a>   
+                </div>
+                <div class="recommended-item">
+                    <img src="images/book__1.jpg" alt="Book 2" class="recommended-image">
+                    <h4 id="modaltexts">Paleoarctic</h4>
+                    <p class="price" id="modaltexts">€19.99</p>
+                    <a href="cart.php">
+                        <button class="add-cart-btn">
+                            <span class="material-icons">local_mall</span> Add to Cart
+                        </button>
+                    </a>
+                </div>
+                <div class="recommended-item">
+                    <img src="images/book__3.jpg" alt="Book 3" class="recommended-image">
+                    <h4 id="modaltexts">Paleoarctic</h4>
+                    <p class="price" id="modaltexts">€19.99</p>
+                    <a href="cart.php">
+                        <button class="add-cart-btn">
+                            <span class="material-icons">local_mall</span> Add to Cart
+                        </button>
+                    </a>
+                </div>
+                <div class="recommended-item">
+                    <img src="images/book__4.jpg" alt="Book 4" class="recommended-image">
+                    <h4 id="modaltexts">Paleoarctic</h4>
+                    <p class="price" id="modaltexts">€19.99</p>
+                    <a href="cart.php">
+                        <button class="add-cart-btn">
+                            <span class="material-icons">local_mall</span> Add to Cart
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
 
 
  <section class="image-section">
