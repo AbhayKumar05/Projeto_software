@@ -16,6 +16,13 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: your-frontend-image # Substitua pela imagem Docker do frontend
+        image: nginx:latest
+        resources:
+      requests:
+        memory: "128Mi"
+        cpu: "200m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
         ports:
         - containerPort: 80
