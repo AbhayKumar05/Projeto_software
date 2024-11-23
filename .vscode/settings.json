@@ -1,12 +1,22 @@
+
+
+{
+    "DockerRun.DisableDockerrc": true
+}
+
 {
     "php.stubs": [
         "*",
-        "pgsql"
+        "mysql"
     ],
     "DockerRun.DisableDockerrc": true,
     "DockerRun.Containers": [
-        "013ed3757043",
-        "154feb8299ec",
-        "8609a50660f4"
+        "0c5734534d52",
+        "6284e8eed8a9",
+        "d92423f3d719",
+        "fd7e50a22ab6",
+        "cbc3a8ac7e2b",
+        "47802a6e674b"
     ]
 }
+
