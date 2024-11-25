@@ -11,5 +11,5 @@ EXPOSE 80
 
 # Reverse Proxy Dockerfile
 FROM nginx:latest
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./src/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
