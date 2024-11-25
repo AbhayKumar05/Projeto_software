@@ -2,7 +2,7 @@ version: "3.8"
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./src
       dockerfile: Dockerfile
     ports:
       - "3000:80"
@@ -11,7 +11,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./src
       dockerfile: Dockerfile
     deploy:
       replicas: 3
