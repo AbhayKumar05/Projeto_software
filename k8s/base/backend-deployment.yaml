@@ -24,3 +24,12 @@ spec:
         cpu: "1"
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: src-volume
+          mountPath: /var/www/html # Onde os arquivos serão montados no contêiner
+      volumes:
+      - name: src-volume
+        hostPath:
+          path: /Users/RAKESHKUMAR/Desktop/IADE/Semester 5th/Projeto_software/src # Caminho absoluto no host
+          type: Directory
+       
