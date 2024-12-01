@@ -339,6 +339,7 @@ section{
 
 .show-products .box-container .box img{
    height: 30rem;
+   width: -webkit-fill-available;
 }
 
 .show-products .box-container .box .name{
