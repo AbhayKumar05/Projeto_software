@@ -217,7 +217,7 @@ section{
    margin: 1rem 0;
  }
  
-
+/*
  #register_img {
    display: flex; 
    width: 50%;
@@ -233,7 +233,8 @@ section{
    height: 100%;
    object-fit: cover;
  }
- 
+ */
+
  .form-container form p {
    padding-top: 2rem;
    font-size: 1.6rem;
@@ -1764,6 +1765,89 @@ services_card*/
    font-size: 1.6rem;
    font-family: 'Cormorant Garamond', serif;
  }
+
+ /* Responsive Styles - not working */
+@media (max-width: 768px) {
+   .register-page {
+      flex-direction: column;
+      padding: 1rem;
+   }
+
+   .form-container {
+      width: 90%;
+      margin: 1rem 0;
+      padding: 1.5rem;
+   }
+
+   #register_img {
+      display: none; 
+   }
+
+   .form-container form h3.cormorant-garamond-bold {
+      font-size: 2rem;
+   }
+
+   .form-container form h3.cormorant-garamond-light {
+      font-size: 1.4rem;
+   }
+
+   .form-container form .box {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.2rem;
+   }
+
+   .image-text-box {
+      position: relative;
+      transform: translate(0, 0);
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 7px;
+      text-align: center;
+   }
+}
+
+@media (max-width: 480px) {
+   .form-container form h3.cormorant-garamond-bold {
+      font-size: 1.8rem;
+   }
+
+   .form-container form h3.cormorant-garamond-light {
+      font-size: 1rem;
+   }
+
+   .form-container form .box {
+      padding: 0.8rem;
+      font-size: 1rem;
+   }
+
+   .form-container {
+      padding: 1rem;
+   }
+
+   .image-text-box {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 5px;
+      text-align: center;
+   }
+
+   .image-text-box h3 {
+      font-size: 1.5rem;
+   }
+
+   .image-text-box p {
+      font-size: 1.2rem;
+   }
+}
+
+
+/*   -----------------------   */
  
 
 .login-container {
@@ -1830,6 +1914,61 @@ services_card*/
    text-decoration: underline;
 }
 
+
+/* Responsive Styles for Login */
+@media (max-width: 768px) {
+   .form-wrapper {
+      width: 70%; 
+      padding: 2rem;
+   }
+
+   .form-wrapper form h3.cormorant-garamond-bold {
+      font-size: 1.8rem; 
+   }
+
+   .form-wrapper form h3.cormorant-garamond-light {
+      font-size: 1.4rem; 
+   }
+
+   .form-wrapper form .box {
+      font-size: 1rem; 
+   }
+
+   .form-wrapper form p {
+      font-size: 1.4rem;
+   }
+}
+
+@media (max-width: 480px) {
+   .form-wrapper {
+      width: 90%; 
+      padding: 1.5rem;
+   }
+
+   .form-wrapper form h3.cormorant-garamond-bold {
+      font-size: 1.6rem; 
+   }
+
+   .form-wrapper form h3.cormorant-garamond-light {
+      font-size: 0.9rem;
+   }
+
+   .form-wrapper form .box {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+   }
+
+   .form-wrapper form p {
+      font-size: 0.8rem;
+   }
+
+   .form-wrapper form .btn {
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+   }
+}
+
+/* ----------------------  */
 
 .recommendations {
    text-align: center;
