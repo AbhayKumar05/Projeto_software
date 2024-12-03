@@ -368,7 +368,7 @@ section{
    margin-top: 0;
 }
 
-/*home*/
+/*  ------ home - hero section -----------   */
 .home {
    height: 43vh; /*------45-----*/
    background: #fcfcfc;
@@ -429,6 +429,8 @@ section{
    margin-top: 10px;
 }
 
+
+/*
 .home .main .main_btn {
    background: #e3d0d0;
    padding: 10px 20px;
@@ -436,7 +438,76 @@ section{
    text-decoration: none;
    margin-top: 20px; 
    display: inline-block;
+}*/
+
+/* Responsive Styles for hero section - home */
+
+@media (max-width: 768px) {
+   .home {
+      height: auto; 
+      padding: 2rem; 
+   }
+
+   .home .main {
+      flex-direction: column; 
+      align-items: center; 
+   }
+
+   .main_image {
+      flex: 0 0 60%; 
+      max-width: 100%; 
+      margin-bottom: 1rem; 
+   }
+
+   .main_tag {
+      flex: 1;
+      max-width: 90%; 
+      text-align: center; 
+   }
+
+   .home .main h3 {
+      font-size: 30px; 
+   }
+
+   #hero-btn {
+      width: 40%; 
+      font-size: 1.2rem; 
+   }
+
+   #hero_p {
+      font-size: 1.4rem; 
+      padding: 5px;
+      text-align: center;
+   }
 }
+
+@media (max-width: 480px) {
+   .home {
+      padding: 1rem; 
+   }
+
+   .home .main h3 {
+      font-size: 24px; 
+   }
+
+   .main_image {
+      flex: 0 0 100%; 
+      margin-bottom: 1rem;
+   }
+
+   #hero-btn {
+      width: 60%; 
+      padding: 1rem; 
+      font-size: 1rem; 
+   }
+
+   #hero_p {
+      font-size: 0.8rem; 
+   }
+}
+
+
+/*   -----------------------   */
 
 
 /* services */
@@ -1561,6 +1632,55 @@ services_card*/
 }
 
 
+
+/* Responsive Styles - service home  */
+@media (max-width: 1024px) {
+   .service-item {
+      width: 45%; 
+   }
+}
+
+@media (max-width: 768px) {
+   .services-row {
+      justify-content: center; 
+   }
+
+   .service-item {
+      width: 100%; 
+      text-align: center; 
+      flex-direction: column; 
+   }
+
+   .service-item i {
+      font-size: 40px; 
+      margin-bottom: 10px;
+   }
+
+   .service-content h3 {
+      font-size: 16px; 
+   }
+
+   .service-content p {
+      font-size: 12px; 
+   }
+}
+
+@media (max-width: 480px) {
+   .service-item i {
+      font-size: 30px; 
+   }
+
+   .service-content h3 {
+      font-size: 14px; 
+   }
+
+   .service-content p {
+      font-size: 10px; 
+   }
+}
+/* -------------------------------  */
+
+
 /*----home book section----*/
 .image-section {
    width:90%;
@@ -1597,6 +1717,65 @@ services_card*/
    z-index: 4;
    height: 300px;
 }
+
+
+/* Responsive Adjustments - home display section idk */
+@media (max-width: 1024px) {
+   .image-section {
+      gap: 10px; 
+   }
+
+   .second-image img {
+      height: 300px; 
+   }
+
+   .first-image img {
+      height: 260px; 
+   }
+
+   .third-image img {
+      height: 240px; 
+   }
+}
+
+@media (max-width: 768px) {
+   .image-section {
+      padding-top: 10px;
+      gap: 0px; 
+   }
+
+   .second-image img {
+      height: 240px; 
+   }
+
+   .first-image img {
+      height: 220px;
+   }
+
+   .third-image img {
+      height: 200px;
+   }
+}
+
+@media (max-width: 480px) {
+   .image-section {
+      flex-wrap: wrap; 
+      gap: 5px; 
+   }
+
+   .image-container img {
+      height: auto; 
+      width: 100%;
+      max-width: 150px; 
+   }
+
+   .second-image img,
+   .first-image img,
+   .third-image img {
+      filter: none; 
+   }
+}
+/* -------------------------------  */
 
 /*---- our story ----*/
 .our-story-section {
