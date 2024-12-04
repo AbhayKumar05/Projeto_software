@@ -90,3 +90,4 @@ function openModal(title, price, imageSrc, description) {
 function closeModal() {
     document.getElementById("bookModal").style.display = "none";
 }
+ 

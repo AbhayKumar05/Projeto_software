@@ -59,7 +59,7 @@
          <p>Email: magnaopus@gmail.com</p>
          <p>Telefone: +351 210 123 456</p>
          <h3>Perguntas Frequentes</h3>
-         <p>Veja a nossa secção de <a href="about.php">FAQ</a> para respostas rápidas a dúvidas comuns.</p>
+         <p>Veja a nossa secção de <a href="about.php#faq">FAQ</a> para respostas rápidas a dúvidas comuns.</p>
       </div>
    </div>
 </section>

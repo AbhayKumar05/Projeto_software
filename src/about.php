@@ -147,7 +147,7 @@ if(!isset($user_id)){
 
 
 <!--------  FAQs   ------->
-<section class="faq">
+<section class="faq" id="faq">
    <div class="faq-container">
       
       <div class="faq-left">
@@ -241,7 +241,7 @@ if(!isset($user_id)){
    </div>
 </section>
 
-
+<!--
 <section class="authors">
 
    <h1 class="title">Developers</h1>
@@ -277,7 +277,7 @@ if(!isset($user_id)){
 
    </div>
 
-</section>
+</section>-->
 
 <?php include 'footer.php'; ?>
 

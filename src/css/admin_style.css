@@ -14,7 +14,7 @@
 }
 
 *{
-   font-family: 'Rubik', sans-serif;
+   /*font-family: 'Rubik', sans-serif;*/
    margin:0; padding:0;
    box-sizing: border-box;
    outline: none; border:none;
@@ -64,10 +64,10 @@ section{
 .empty{
    padding:1.5rem;
    text-align: center;
-   border:var(--border);
-   background-color: var(--white);
-   color:var(--red);
+   background-color: #c40000;
    font-size: 2rem;
+   color: white;
+   border-radius: 5px;
 }
 
 .message{
@@ -129,7 +129,7 @@ section{
 }
 
 .delete-btn{
-   background-color: var(--red);
+   background-color: #c40000;
 }
 
 .white-btn:hover{
@@ -251,6 +251,7 @@ section{
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
    gap:1.5rem;
+   width: auto;
    max-width: 1200px;
    margin:0 auto;
    align-items: flex-start;
@@ -266,16 +267,17 @@ section{
 }
 
 .dashboard .box-container .box h3{
-   font-size: 5rem;
    color:var(--black); 
+   font-size: 1.6rem;
+   padding: 5px;
 }
 
 .dashboard .box-container .box p{
    margin-top: 1.5rem;
    padding:1.5rem;
-   background-color: var(--light-bg);
-   color:var(--purple);
-   font-size: 2rem;
+   background-color: #001d34;
+   color:white;
+   font-size: 1.4rem;
    border-radius: .5rem;
    border:var(--border);
 }
@@ -308,7 +310,6 @@ section{
    padding:1.2rem 1.4rem;
    color:var(--black);
    font-size: 1.8rem;
-   border:var(--border);
 }
 
 /*produto*/
@@ -460,7 +461,7 @@ section{
 
 .users .box-container .box p{
    padding-bottom: 1.5rem;
-   font-size: 2rem;
+   font-size: 1.5rem;
    color:var(--light-color);
 }
 
