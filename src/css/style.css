@@ -207,7 +207,7 @@ section{
  }
  
  .form-container form .box {
-   width: 90%;
+   width: 80%;
    border-radius: .5rem;
    background-color:#fafafa;
    padding: 1.2rem;
@@ -1910,7 +1910,7 @@ services_card*/
  
 #register_img {
    position: relative;
-   width: 50%;
+   width: 43%;
  }
  
  #reg_image {
@@ -1920,8 +1920,22 @@ services_card*/
    object-fit: cover;
  }
  
-
+ /*
  .image-text-box {
+   position: absolute;
+   top: 50%; 
+   left: 50%; 
+   transform: translate(-50%, -50%); 
+   background-color: rgba(0, 0, 0, 0.5);
+   color: white;
+   padding: 2rem;
+   border-radius: 10px;
+   text-align: center;
+   width: 70%;
+}*/
+
+
+.image-text-box {
    position: absolute;
    top: 85%;
    left: 50%;
@@ -1932,7 +1946,7 @@ services_card*/
    border-radius: 10px;
    text-align: center;
    width: 70%;
- }
+}
  
  .image-text-box h3 {
    font-size: 2rem;
@@ -1944,6 +1958,70 @@ services_card*/
    font-size: 1.6rem;
    font-family: 'Cormorant Garamond', serif;
  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ #register_img {
+   display: flex; 
+   justify-content: center;
+   align-items: center;
+   position: relative; 
+   width: 100%; 
+   height: 100%; 
+}
+
+#reg_image {
+   width: auto;
+   height: 80%;
+   border-radius: 2%;
+   object-fit: cover;
+}
+
+.image-text-box {
+   position: absolute;
+   top: 85%;
+   left: 50%;
+   transform: translate(-50%, -20%);
+   background-color: rgba(0, 0, 0, 0.5);
+   color: white;
+   padding: 2rem;
+   border-radius: 10px;
+   text-align: center;
+   width: 70%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  /* Responsive Styles - not working */
 @media (max-width: 768px) {
