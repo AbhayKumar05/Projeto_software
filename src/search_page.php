@@ -1,10 +1,10 @@
 <?php
  include 'config.php';
- session_start();/*
+ session_start();
  $user_id = $_SESSION['user_id'];
  if(!isset($user_id)){
     header('location:login.php');
-   };*/
+   };
  if(isset($_POST['add_to_cart'])){
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
@@ -57,7 +57,7 @@
                     <form action="" method="post" class="box">
                        <img src="uploaded_img/<?php echo $fetch_product['image']; ?>" alt="" class="image">
                       <div class="name"><?php echo $fetch_product['name']; ?></div>
-                      <div class="price">$<?php echo $fetch_product['price']; ?>/-</div>
+                      <div class="price">€<?php echo $fetch_product['price']; ?>/-</div>
                       <input type="number"  class="qty" name="product_quantity" min="1" value="1">
                       <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                       <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">

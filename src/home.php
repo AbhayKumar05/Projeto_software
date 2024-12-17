@@ -47,7 +47,7 @@ session_start();
 <section class="home">
     <div class="main">
         <div class="main_image">
-            <img src="uploaded_img/hero.png" alt="Book Store Image">
+            <img src="uploaded_img/hero2.jpg" alt="Book Store Image">
         </div>
         <div class="main_tag">
              <div class="cormorant-garamond-medium">
@@ -185,7 +185,7 @@ session_start();
                                 <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
                                 <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
                                 <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
-                                <!--<input type="number" name="product_quantity" value="1" min="1" class="quantity-box"> -->
+                                <input type="number" name="product_quantity" value="1" min="1" class="quantity-box">
                                 <button type="submit" name="add_to_cart" class="add-to-cart-btn">
                                     <span class="material-icons">local_mall</span> Add to Cart
                                 </button>

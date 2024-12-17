@@ -1,10 +1,10 @@
 <?php
  include 'config.php';
- session_start(); /*
+ session_start(); 
  $admin_id = $_SESSION['admin_id'];
  if(!isset($admin_id)){
     header('location:login.php');
-   }; */
+   };
  if(isset($_GET['delete'])){
     $delete_id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM `message` WHERE id = '$delete_id'") or die('query failed');
@@ -38,7 +38,7 @@
                    <p> Numero : <span><?php echo $fetch_message['number']; ?></span> </p>
                    <p> Email : <span><?php echo $fetch_message['email']; ?></span> </p>
                    <p> Mensagem : <span><?php echo $fetch_message['message']; ?></span> </p>
-                   <a href="admin_contacts.php?delete=<?php echo $fetch_message['id']; ?>" onclick="return confirm('Deletar mensagem?');" class="delete-btn">Deletar</a>
+                   <a href="admin_contacts.php?delete=<?php echo $fetch_message['id']; ?>" onclick="return confirm('Deletar mensagem?');" class="delete-btn">Eliminar</a>
                   </div>
                 <?php
                };

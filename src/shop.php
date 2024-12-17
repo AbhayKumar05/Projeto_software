@@ -1,10 +1,10 @@
 <?php
  include 'config.php';
- session_start();/*
+ session_start();
  $user_id = $_SESSION['user_id'];
  if(!isset($user_id)){
     header('location:login.php');
-  }*/
+  }
  if(isset($_POST['add_to_cart'])){
    $product_name = $_POST['product_name'];
    $product_price = $_POST['product_price'];
@@ -50,10 +50,10 @@
        <form action="" method="post" class="box">
           <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
           <div class="name"><?php echo $fetch_products['name']; ?></div>
-          <div class="price">€<?php echo $fetch_products['price']; ?>/-</div>
-          <!--<input type="number" min="1" name="product_quantity" value="1" class="qty"> -->
-          <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
-          <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
+          <div class="price">€<?php echo $fetch_products['price']; ?></div>
+          <input type="number" min="1" name="product_quantity" value="1" class="qty">
+          <input type="hidden" name="product_name" id="carousel-item-info h3" value="<?php echo $fetch_products['name']; ?>">
+          <input type="hidden" name="product_price" id="carousel-item-info h3" value="<?php echo $fetch_products['price']; ?>">
           <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
           <input type="submit" value="add to cart" name="add_to_cart" class="btn">
         </form>

@@ -2,6 +2,7 @@
 version: "3.9"
 
 services:
+  #not working - partially 
   frontend:
     build:
       context: ./src
@@ -11,7 +12,7 @@ services:
     networks:
       - app-network
 
-      #not working
+      #not working - at all
   backend: 
     build:
       context: ./src
