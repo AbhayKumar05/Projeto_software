@@ -10,7 +10,7 @@
     $cart_id = $_POST['cart_id'];
     $cart_quantity = $_POST['cart_quantity'];
     mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id = '$cart_id'") or die('query failed');
-    $message[] = 'cart quantity updated!';
+    $message[] = 'Quantidade atualizada!';
    }
  if(isset($_GET['delete'])){
     $delete_id = $_GET['delete'];
@@ -59,7 +59,7 @@
              <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>">
              <input type="submit" name="update_cart" value="update" class="option-btn">
           </form>
-          <div class="sub-total"> sub total : <span>$<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?>/-</span> </div>
+          <div class="sub-total"> Sub total : <span>€<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?></span> </div>
         </div>
        <?php
           $grand_total += $sub_total;
@@ -75,7 +75,7 @@
     </div>
 
     <div class="cart-total">
-       <p>grand total : <span>$<?php echo $grand_total; ?>/-</span></p>
+       <p>Grand total : <span>$<?php echo $grand_total; ?>/-</span></p>
        <div class="flex">
           <a href="shop.php" class="option-btn">Continue Comprando</a>
           <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">Finalizar</a>

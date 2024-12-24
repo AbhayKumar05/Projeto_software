@@ -55,7 +55,10 @@
           <input type="hidden" name="product_name" id="carousel-item-info h3" value="<?php echo $fetch_products['name']; ?>">
           <input type="hidden" name="product_price" id="carousel-item-info h3" value="<?php echo $fetch_products['price']; ?>">
           <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
-          <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+          <!--<input type="submit" value="add to cart" name="add_to_cart" class="btn">-->
+          <button type="submit" name="add_to_cart" class="add-to-cart-btn">
+            <span class="material-icons">local_mall</span> Add to Cart
+          </button>
         </form>
        <?php
           }

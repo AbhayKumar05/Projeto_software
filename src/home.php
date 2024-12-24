@@ -170,7 +170,6 @@ session_start();
             <?php
             include 'config.php';
 
-            // Fetch latest 5 books from the database
             $fetch_products_query = mysqli_query($conn, "SELECT * FROM `products` ORDER BY id DESC LIMIT 5") or die('Query failed');
 
             if(mysqli_num_rows($fetch_products_query) > 0) {

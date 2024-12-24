@@ -396,10 +396,12 @@ section{
 .main_image {
    flex: 0 0 40%; 
    max-width: 80%;
+   align-items: center;
+   align-content: center;
 }
 
 .main_image img {
-   width: 100%; 
+   width: 70%; 
    height: auto;
    padding-bottom: 12px;
 }
@@ -613,8 +615,8 @@ section{
    /*border-radius: .5rem;
    background-color: var(--white);
    box-shadow: var(--box-shadow);*/
-   padding:2rem;
-   text-align: center;
+   padding:1.6rem;
+   /*text-align: center;*/
    /*border:var(--border);*/
    position: relative;
 }
@@ -631,22 +633,23 @@ section{
 }
 
 .products .box-container .box .qty{
-   width: 100%;
-   padding:1.2rem 1.4rem;
+   width: 40%;
+   padding:0.7rem 0.7rem;
    border-radius: .5rem;
-   border:var(--border);
-   margin:1rem 0;
-   font-size: 2rem;
+   /*border:var(--border);
+   margin:1rem 0;*/
+   font-size: 1.7rem;
+   background-color: #f4f4f4;
 }
 
 .products .box-container .box .price{
    position: absolute;
-   top:1rem; left:1rem;
+   top:0.5rem; left:0.5rem;
    border-radius: .5rem;
    padding:1rem;
-   font-size: 2.5rem;
+   font-size: 1.5rem;
    color:var(--white);
-   background-color: var(--red);
+   background-color: #c40000;
    font-family: 'Playfair Display', serif;
 }
 
@@ -945,9 +948,9 @@ section{
 .shopping-cart .box-container .box .fa-times{
    position: absolute;
    top:1rem; right:1rem;
-   height: 4.5rem;
-   width: 4.5rem;
-   line-height: 4.5rem;
+   height: 2.5rem;
+   width: 2.5rem;
+   line-height: 2.5rem;
    font-size: 2rem;
    background-color: var(--red);
    color:var(--white);
@@ -984,9 +987,9 @@ section{
 }
 
 .shopping-cart .box-container .box .sub-total{
-   padding-top: 1.5rem;
-   font-size: 2rem;
-   color:var(--light-color);
+   padding-top: 1rem;
+   font-size: 1.2rem;
+   font-weight: 100;
 }
 
 .shopping-cart .box-container .box .sub-total span{
@@ -1095,11 +1098,12 @@ section{
 }
 
 .checkout form .flex span {
-   font-size: 1.8rem;
+   font-size: 1.4rem;
    color: var(--black);
-   font-weight: 500;
    margin-bottom: 0.5rem;
    display: block;
+   /*font-family: 'Playfair Display', serif;*/
+   font-weight: 100;
 }
 
 
@@ -1193,8 +1197,8 @@ section{
    flex:1 1 40rem;
    border-radius: .5rem;
    padding:2rem;
-   border:var(--border);
-   background-color: var(--light-bg);
+   /*border:var(--border);*/
+   background-color: #f7f5f2;
    padding:1rem 2rem;
 }
 
