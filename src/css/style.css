@@ -1090,6 +1090,7 @@ section{
    display: flex;
    flex-wrap: wrap;
    gap: 2rem; 
+   padding-bottom: 2rem;
 }
 
 .checkout form .flex .inputBox {

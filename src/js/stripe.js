@@ -1,37 +1,79 @@
-const stripe = Stripe('pk_test_51QXsEiDzsayfXOwXemJhhZbbbfLMHhBoRq8M8A33gwOwQk0IzPnA4n7u7OTuJUc6IALaLPRyvNnxfwOpQ2BsTCQ400TvhwGlRv');
-const elements = stripe.elements();
-const cardElement = elements.create('card');
+document.addEventListener('DOMContentLoaded', () => {
+    const stripe = stripe('pk_test_51QXsEiDzsayfXOwXemJhhZbbbfLMHhBoRq8M8A33gwOwQk0IzPnA4n7u7OTuJUc6IALaLPRyvNnxfwOpQ2BsTCQ400TvhwGlRv');
+    const elements = stripe.elements();
 
-cardElement.mount('#card-element');
+    // Create a card element
+    const card = elements.create('card');
+    card.mount('#card-element');
 
-const form = document.getElementById('payment-form');
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    // Payment Request Button
+    const paymentRequest = stripe.paymentRequest({
+        country: 'PT',
+        currency: 'eur',
+        total: {
+            label: 'Total',
+            amount: 1000, 
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+    });
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod('card', cardElement);
+    const prButton = elements.create('paymentRequestButton', {
+        paymentRequest,
+    });
 
-    if (error) {
-        document.getElementById('card-errors').textContent = error.message; 
-    } else {
+    paymentRequest.canMakePayment().then((result) => {
+        if (result) {
+            prButton.mount('#payment-request-button');
+        } else {
+            document.getElementById('payment-request-button').style.display = 'none';
+        }
+    });
+
+    paymentRequest.on('paymentmethod', async (event) => {
         const response = await fetch('/create-payment-intent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ paymentMethodId: paymentMethod.id })
+            body: JSON.stringify({ paymentMethodId: event.paymentMethod.id }),
         });
 
-        const data = await response.json();
+        const { clientSecret, error } = await response.json();
 
-        if (data.error) {
-            document.getElementById('card-errors').textContent = data.error; 
+        if (error) {
+            event.complete('fail');
+            console.error(error.message);
         } else {
-            const { error: confirmError } = await stripe.confirmCardPayment(data.clientSecret);
+            const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret);
 
             if (confirmError) {
-                document.getElementById('card-errors').textContent = confirmError.message; 
+                console.error(confirmError.message);
+                event.complete('fail');
             } else {
+                event.complete('success');
                 alert('Payment Successful!');
                 window.location.href = '/payment_success.php';
             }
         }
-    }
+    });
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card,
+                billing_details: {
+                    name: document.getElementById('name').value,
+                },
+            },
+        });
+
+        if (error) {
+            console.error(error.message);
+        } else {
+            alert('Payment Successful!');
+            window.location.href = '/payment_success.php';
+        }
+    });
 });

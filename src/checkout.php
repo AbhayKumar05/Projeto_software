@@ -12,47 +12,48 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['order_btn'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $number = $_POST['number'];
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $address = mysqli_real_escape_string($conn, 'flat no. ' . $_POST['flat'] . ', ' . $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['country'] . ' - ' . $_POST['pin_code']);
-    $placed_on = date('d-M-Y');
-    $cart_total = 0;
+   $name = mysqli_real_escape_string($conn, $_POST['name']);
+   $number = $_POST['number'];
+   $email = mysqli_real_escape_string($conn, $_POST['email']);
+   $address = mysqli_real_escape_string($conn, 'flat no. ' . $_POST['flat'] . ', ' . $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['country'] . ' - ' . $_POST['pin_code']);
+   $placed_on = date('d-M-Y');
+   $cart_total = 0;
 
-    // Fetch cart items and calculate total
-    $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-    if (mysqli_num_rows($cart_query) > 0) {
-        while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $sub_total = ($cart_item['price'] * $cart_item['quantity']);
-            $cart_total += $sub_total;
-        }
-    }
+   // Fetch cart items and calculate total
+   $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+   if (mysqli_num_rows($cart_query) > 0) {
+       while ($cart_item = mysqli_fetch_assoc($cart_query)) {
+           $sub_total = ($cart_item['price'] * $cart_item['quantity']);
+           $cart_total += $sub_total;
+       }
+   }
 
-    if ($cart_total == 0) {
-        $message[] = 'Your cart is empty';
-    } else {
-        try {
-            // Create PaymentIntent
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $cart_total * 100, // Amount in cents
-                'currency' => 'eur',
-                'payment_method_types' => ['card'],
-                'metadata' => [
-                    'user_id' => $user_id,
-                    'name' => $name,
-                    'email' => $email,
-                ],
-            ]);
-            $_SESSION['client_secret'] = $paymentIntent->client_secret;
-            header('Location: stripe_payment.php');
-            exit;
-        } catch (\Stripe\Exception\ApiErrorException $e) {
-            error_log('PaymentIntent Error: ' . $e->getMessage());
-            die('Error creating PaymentIntent: ' . $e->getMessage());
-        }
-    }
+   if ($cart_total == 0) {
+       $message[] = 'Your cart is empty';
+   } else {
+       try {
+           $paymentIntent = \Stripe\PaymentIntent::create([
+               'amount' => $cart_total * 100, 
+               'currency' => 'eur',
+               'payment_method_types' => ['card'], // Only card for now
+               'metadata' => [
+                   'user_id' => $user_id,
+                   'name' => $name,
+                   'email' => $email,
+               ],
+           ]);
+           $_SESSION['client_secret'] = $paymentIntent->client_secret;
+           header('Location: stripe_payment.php');
+           exit;
+       } catch (\Stripe\Exception\ApiErrorException $e) {
+           error_log('PaymentIntent Error: ' . $e->getMessage());
+           die('Error creating PaymentIntent: ' . $e->getMessage());
+       }
+   }
 }
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -78,7 +79,7 @@ if (isset($_POST['order_btn'])) {
     </section>-->
 
     <section class="checkout">
-    <form action="" method="post">
+    <form action="" method="post" id="payment-form">
         <h3>Finalize Pedido</h3>
         <div class="flex">
             <div class="inputBox">
@@ -92,19 +93,6 @@ if (isset($_POST['order_btn'])) {
             <div class="inputBox">
                 <span>Email :</span>
                 <input type="email" name="email" required placeholder="Enter your email">
-            </div>
-            <div class="inputBox">
-                <span>Metodo de Pagamento :</span>
-                <select name="method" required>
-                    <option value="credit card">Credit Card</option>
-                    <!--<br>Successful payment: <strong>4242 4242 4242 4242</strong>
-                    <br>Declined payment: <strong>4000 0000 0000 0002</strong>
-                    <br>3D Secure: <strong>4000 0025 0000 3155</strong> -->
-                </select>
-            </div>
-            <div class="inputBox">
-                <span>Card Number :</span>
-                <input type="text" name="card_number" placeholder="Enter test card number">
             </div>
             <div class="inputBox">
                 <span>Morada :</span>
@@ -131,11 +119,31 @@ if (isset($_POST['order_btn'])) {
                 <input type="text" name="pin_code" required placeholder="Postal code">
             </div>
         </div>
+        
+        <h3>Informações do Cartão</h3>
+        <div class="flex">
+            <div class="inputBox">
+                <span>Número do Cartão :</span>
+                <input type="text" name="card_number" required placeholder="Enter card number">
+                <!--<br>Successful payment: <strong>4242 4242 4242 4242</strong>
+                    <br>Declined payment: <strong>4000 0000 0000 0002</strong>
+                    <br>3D Secure: <strong>4000 0025 0000 3155</strong> -->
+            </div>
+            <div class="inputBox">
+                <span>Data de Expiração (MM/YY) :</span>
+                <input type="text" name="expiry_date" required placeholder="MM/YY">
+            </div>
+            <div class="inputBox">
+                <span>Código de Segurança (CVC) :</span>
+                <input type="text" name="cvc" required placeholder="CVC">
+            </div>
+        </div>
         <div class="btn-container">
            <input type="submit" value="Order Now" class="btn" name="order_btn">
         </div>
     </form>
 </section>
+
 
 
 
