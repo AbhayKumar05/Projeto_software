@@ -36,18 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ paymentMethodId: event.paymentMethod.id }),
         });
-
+    
         const { clientSecret, error } = await response.json();
-
+    
         if (error) {
             event.complete('fail');
             console.error(error.message);
         } else {
+            // Ensure confirmCardPayment uses the correct clientSecret here
             const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret);
-
+    
             if (confirmError) {
-                console.error(confirmError.message);
                 event.complete('fail');
+                console.error(confirmError.message);
             } else {
                 event.complete('success');
                 alert('Payment Successful!');

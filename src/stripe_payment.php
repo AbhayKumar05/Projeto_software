@@ -23,6 +23,8 @@
             const stripe = Stripe('pk_test_51QXsEiDzsayfXOwXemJhhZbbbfLMHhBoRq8M8A33gwOwQk0IzPnA4n7u7OTuJUc6IALaLPRyvNnxfwOpQ2BsTCQ400TvhwGlRv');
             const elements = stripe.elements();
 
+            const clientSecret = '<?php echo $_SESSION["client_secret"]; ?>';
+
             // Create a card element
             const card = elements.create('card');
             card.mount('#card-element');
@@ -105,8 +107,7 @@
 const form = document.getElementById('payment-form');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
-
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+    const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card,
             billing_details: {
