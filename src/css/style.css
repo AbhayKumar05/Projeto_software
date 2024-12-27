@@ -952,7 +952,7 @@ section{
    width: 2.5rem;
    line-height: 2.5rem;
    font-size: 2rem;
-   background-color: var(--red);
+   background-color: #c40000;
    color:var(--white);
    border-radius: .5rem;
 }
@@ -974,7 +974,7 @@ section{
 .shopping-cart .box-container .box .price{
    padding:1rem 0;
    font-size: 2.5rem;
-   color:var(--red);
+   color:#c40000;
 }
 
 .shopping-cart .box-container .box input[type="number"]{
@@ -993,7 +993,7 @@ section{
 }
 
 .shopping-cart .box-container .box .sub-total span{
-   color:var(--red);
+   color:#c40000;
 }
 
 .shopping-cart .cart-total{
@@ -1012,7 +1012,7 @@ section{
 }
 
 .shopping-cart .cart-total p span{
-   color:var(--red);
+   color:#c40000;
 }
 
 .shopping-cart .cart-total .btn{
@@ -2229,7 +2229,7 @@ services_card*/
    }
 }
 
-/* ----------------------  */
+/* ----------------------  
 
 .recommendations {
    text-align: center;
@@ -2276,8 +2276,106 @@ services_card*/
    font-size: 16px;
    text-align: center;
 }
+*/
 
 
+.recommendations {
+   text-align: center;
+   padding: 20px;
+}
+
+.flex-books {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center; 
+   gap: 10px;
+   margin-bottom: 20px;
+}
+
+.book {
+   width: 23%; 
+   text-align: center;
+}
+
+.book button {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: black;
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   font-size: 11px;
+   cursor: pointer;
+   margin-top: 6px;
+   margin-left: auto;
+   margin-right: auto;
+   margin-bottom: 5px;
+}
+
+#home_rec {
+   width: auto; 
+   height: 290px; 
+   object-fit: cover;
+}
+
+.book p {
+   font-size: 16px;
+   text-align: center;
+}
+
+/* Responsive Adjustments - AI part */
+@media (max-width: 1024px) {
+   .book {
+      width: 30%; 
+   }
+
+   #home_rec {
+      height: 250px; 
+   }
+
+   .book button {
+      font-size: 12px; 
+      padding: 8px 12px; 
+   }
+
+   .book p {
+      font-size: 15px; 
+   }
+}
+
+@media (max-width: 768px) {
+   .book {
+      width: 45%; 
+   }
+
+   #home_rec {
+      height: 220px; 
+   }
+}
+
+@media (max-width: 480px) {
+   .book {
+      width: 100%; 
+   }
+
+   #home_rec {
+      height: 200px;
+   }
+
+   .book button {
+      font-size: 10px; 
+      padding: 6px 10px; 
+   }
+
+   .book p {
+      font-size: 14px; 
+   }
+}
+
+
+
+/*---------- carousel ------------
 
 .carousel {
    text-align: center;
@@ -2335,7 +2433,109 @@ services_card*/
 .add-to-cart-btn .material-icons {
    margin-right: 8px;
    font-size: 14px;
+}*/
+
+
+.carousel {
+   text-align: center;
+   margin-bottom: 20px;
+   margin-top: 25px;
 }
+
+.carousel-container {
+   display: flex;
+   justify-content: center;
+   overflow-x: auto; /* horizontal scrolling - not sure but cool */
+   scrollbar-width: none; 
+}
+
+.carousel-container::-webkit-scrollbar {
+   display: none; 
+}
+
+.carousel-items {
+   display: flex;
+   flex-wrap: nowrap; 
+   gap: 15px; 
+}
+
+.carousel-item {
+   flex: 0 0 auto; 
+   width: 200px; 
+   text-align: start;
+   margin: 0;
+}
+
+.carousel-image {
+   width: auto; 
+   height: 290px;
+   max-height: 290px; 
+   object-fit: cover;
+}
+
+.carousel-item-info h3 {
+   margin-top: 4px;
+   font-family: 'Playfair Display', serif;
+   font-weight: 100;
+   font-size: 14px; 
+}
+
+.price {
+   color: #bb1a1a;
+   padding-top: 2px;
+   font-size: 13px; 
+   font-family: 'Playfair Display', serif;
+}
+
+.add-to-cart-btn {
+   display: flex;
+   align-items: center;
+   background-color: black;
+   color: white;
+   border: none;
+   padding: 8px 10px; 
+   font-size: 10px; 
+   cursor: pointer;
+   margin-top: 6px;
+}
+
+.add-to-cart-btn .material-icons {
+   margin-right: 5px; 
+   font-size: 12px; 
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+   .carousel-items {
+      gap: 10px; 
+   }
+
+   .carousel-item {
+      width: 150px; 
+   }
+
+   .carousel-image {
+      max-height: 200px; 
+   }
+
+   .carousel-item-info h3 {
+      font-size: 12px; 
+   }
+
+   .price {
+      font-size: 12px; 
+   }
+
+   .add-to-cart-btn {
+      padding: 6px 8px; 
+      font-size: 9px;
+   }
+
+   .add-to-cart-btn .material-icons {
+      font-size: 10px; 
+   }
+}
+
 
 
 /*
@@ -2681,3 +2881,4 @@ services_card*/
    color: #626262;
    padding-bottom: 1rem;
 }
+
