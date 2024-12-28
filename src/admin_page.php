@@ -4,7 +4,7 @@
  $admin_id = $_SESSION['admin_id'];
  if(!isset($admin_id)){
     header('location:login.php');
-   } 
+ } 
 ?>
 
 <!DOCTYPE html>
@@ -24,30 +24,30 @@
     <div class="box-container">
        <div class="box">
           <?php 
-              $total_pendings = 0;
+              $total_pendings = 0.0; // Initialize as float
               $select_pending = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'pending'") or die('query failed');
               if(mysqli_num_rows($select_pending) > 0){
                  while($fetch_pendings = mysqli_fetch_assoc($select_pending)){
-                    $total_price = $fetch_pendings['total_price'];
+                    $total_price = (float)$fetch_pendings['total_price']; // Cast to float
                     $total_pendings += $total_price;
                   };
                }; 
             ?>
-          <h3>$<?php echo $total_pendings; ?>/-</h3>
+          <h3>$<?php echo number_format($total_pendings, 2); ?>/-</h3>
           <p>Valor Pendente</p>
        </div>
        <div class="box">
           <?php
-             $total_completed = 0;
+             $total_completed = 0.0; // Initialize as float
              $select_completed = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'completed'") or die('query failed');
              if(mysqli_num_rows($select_completed) > 0){
                 while($fetch_completed = mysqli_fetch_assoc($select_completed)){
-                   $total_price = $fetch_completed['total_price'];
+                   $total_price = (float)$fetch_completed['total_price']; // Cast to float
                    $total_completed += $total_price;
                   };
                };
             ?>
-           <h3>$<?php echo $total_completed; ?>/-</h3>
+           <h3>$<?php echo number_format($total_completed, 2); ?>/-</h3>
            <p>Pagamentos Completos</p>
         </div>
         <div class="box">
