@@ -627,9 +627,19 @@ section{
 
 .products .box-container .box .name{
    padding:1rem 0;
-   font-size: 2rem;
+   font-size: 1.7rem;
    color:var(--black);
    font-family: 'Playfair Display', serif;
+}
+
+.author{
+   color: #5d5c5c;
+   padding-top: 2px;
+}
+
+.genre{
+   color: #5d5c5c;
+   padding-bottom: 3px;
 }
 
 .products .box-container .box .qty{

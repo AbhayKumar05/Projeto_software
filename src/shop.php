@@ -1,26 +1,33 @@
 <?php
- include 'config.php';
- session_start();
- $user_id = $_SESSION['user_id'];
- if(!isset($user_id)){
+include 'config.php';
+session_start();
+
+$user_id = $_SESSION['user_id'];
+if (!isset($user_id)) {
     header('location:login.php');
- }
- if(isset($_POST['add_to_cart'])){
-   $product_name = $_POST['product_name'];
-   $product_price = floatval($_POST['product_price']); // Ensure price is handled as float
-   $product_image = $_POST['product_image'];
-   $product_quantity = $_POST['product_quantity'];
-   
-   // Check if product is already in the cart
-   $check_cart_numbers = mysqli_query($conn, "SELECT * FROM cart WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
-   if(mysqli_num_rows($check_cart_numbers) > 0){
-      $message[] = 'Já adicionado ao Carrinho!';
-   }else{
-      mysqli_query($conn, "INSERT INTO cart(user_id, name, price, quantity, image) 
-      VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
-      $message[] = 'Produto adicionado!';
-   }
- }
+}
+
+if (isset($_POST['add_to_cart'])) {
+    $product_name = $_POST['product_name'];
+    $product_price = floatval($_POST['product_price']);
+    $product_image = $_POST['product_image'];
+    $product_quantity = intval($_POST['product_quantity']);
+
+    $check_cart_numbers = mysqli_query($conn, "
+        SELECT * FROM `cart` 
+        WHERE name = '$product_name' AND user_id = '$user_id'
+    ") or die('Query failed');
+
+    if (mysqli_num_rows($check_cart_numbers) > 0) {
+        $message[] = 'Já adicionado ao Carrinho!';
+    } else {
+        mysqli_query($conn, "
+            INSERT INTO `cart`(user_id, name, price, quantity, image) 
+            VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
+        ") or die('Query failed');
+        $message[] = 'Produto adicionado!';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,24 +41,31 @@
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>   
- <?php include 'header.php'; ?>
- <div class="heading">
+<body>
+<?php include 'header.php'; ?>
+
+<div class="heading">
     <h3>Livros</h3>
-    <p> <a href="home.php">Home</a> / Livros </p>
- </div>
- <section class="products">
+    <p><a href="home.php">Home</a> / Livros</p>
+</div>
+
+<section class="products">
     <div class="box-container">
-       <?php  
-          // Fetch products from the database
-          $select_products = mysqli_query($conn, "SELECT * FROM products") or die('query failed');
-          if(mysqli_num_rows($select_products) > 0){
-             while($fetch_products = mysqli_fetch_assoc($select_products)){
-        ?>
+       <?php
+       $select_products = mysqli_query($conn, "
+           SELECT p.*, g.name AS genre_name 
+           FROM `products` p 
+           JOIN `genres` g ON p.genre_id = g.id
+       ") or die('Query failed');
+
+       if (mysqli_num_rows($select_products) > 0) {
+           while ($fetch_products = mysqli_fetch_assoc($select_products)) {
+       ?>
        <form action="" method="post" class="box">
           <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
           <div class="name"><?php echo $fetch_products['name']; ?></div>
-          <!-- Format the price to two decimal places for display -->
+          <div class="author">Autor: <?php echo $fetch_products['author']; ?></div>
+          <div class="genre">Gênero: <?php echo $fetch_products['genre_name']; ?></div>
           <div class="price">€<?php echo number_format($fetch_products['price'], 2, '.', ''); ?></div>
           <input type="number" min="1" name="product_quantity" value="1" class="qty">
           <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
@@ -60,16 +74,17 @@
           <button type="submit" name="add_to_cart" class="add-to-cart-btn">
             <span class="material-icons">local_mall</span> Add to Cart
           </button>
-        </form>
+       </form>
        <?php
-          }
-          }else{
-             echo '<p class="empty">Sem produtos no momento!</p>';
-          } 
-        ?>
-     </div>
-  </section>
- <?php include 'footer.php'; ?>
- <script src="js/script.js"></script>
+           }
+       } else {
+           echo '<p class="empty">Sem produtos no momento!</p>';
+       }
+       ?>
+    </div>
+</section>
+
+<?php include 'footer.php'; ?>
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -7,28 +7,31 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 
-// Update the products and cart table to use FLOAT for price fields
-mysqli_query($conn, "ALTER TABLE `products` MODIFY COLUMN `price` FLOAT NOT NULL") or die('Query failed');
-mysqli_query($conn, "ALTER TABLE `cart` MODIFY COLUMN `price` FLOAT NOT NULL") or die('Query failed');
-
-// Alter total_price in orders table to FLOAT
-mysqli_query($conn, "ALTER TABLE `orders` MODIFY COLUMN `total_price` FLOAT NOT NULL") or die('Query failed');
-
 if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_price = floatval($_POST['product_price']);
     $product_image = $_POST['product_image'];
-    $product_quantity = $_POST['product_quantity'];
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
+    $product_quantity = intval($_POST['product_quantity']);
+
+    $check_cart_numbers = mysqli_query($conn, "
+        SELECT * 
+        FROM `cart` 
+        WHERE product_id = '$product_id' AND user_id = '$user_id'
+    ") or die('Query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Já está no carrinho!';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
+        mysqli_query($conn, "
+            INSERT INTO `cart` (user_id, product_id, name, price, quantity, image) 
+            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
+        ") or die('Query failed');
         $message[] = 'Produto adicionado!';
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -179,7 +182,12 @@ if (isset($_POST['add_to_cart'])) {
             <?php
             include 'config.php';
 
-            $fetch_products_query = mysqli_query($conn, "SELECT * FROM `products` ORDER BY id DESC LIMIT 5") or die('Query failed');
+            $fetch_products_query = mysqli_query($conn, "
+                SELECT p.*, g.name AS genre 
+                FROM `products` p 
+                JOIN `genres` g ON p.genre_id = g.id 
+                ORDER BY p.id DESC LIMIT 5
+            ") or die('Query failed');
 
             if(mysqli_num_rows($fetch_products_query) > 0) {
                 while($product = mysqli_fetch_assoc($fetch_products_query)) {
@@ -188,8 +196,11 @@ if (isset($_POST['add_to_cart'])) {
                         <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="carousel-image">
                         <div class="carousel-item-info">
                             <h3><?php echo $product['name']; ?></h3>
+                            <p class="author">Autor: <?php echo $product['author']; ?></p>
+                            <p class="genre">Gênero: <?php echo $product['genre']; ?></p>
                             <p class="price">€<?php echo number_format($product['price'], 2); ?></p>
                             <form action="" method="post">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                 <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
                                 <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
                                 <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
@@ -209,6 +220,7 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </div>
 </section>
+
 
 
 
