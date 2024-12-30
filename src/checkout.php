@@ -1,24 +1,34 @@
 <?php
 include 'config.php';
-require 'vendor/autoload.php'; 
+require 'vendor/autoload.php';
 session_start();
 
-\Stripe\Stripe::setApiKey('sk_test_51QXsEiDzsayfXOwXcoVjTW9tLnaK3R6FcttLdYBgG23lDBNh824KGYIw4kjoz9B4jM4MVcDbuviTr5HInsNaTl63009OeKCb47'); 
+// Configuração da chave secreta do Stripe
+\Stripe\Stripe::setApiKey('sk_test_51QXsEiDzsayfXOwXcoVjTW9tLnaK3R6FcttLdYBgG23lDBNh824KGYIw4kjoz9B4jM4MVcDbuviTr5HInsNaTl63009OeKCb47');
 
+// Verificação se o usuário está logado
 $user_id = $_SESSION['user_id'] ?? null;
-
 if (!$user_id) {
-    header('location:login.php');
+    header('Location: login.php');
     exit;
 }
 
+// Inicialização da mensagem
+$message = [];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $number = mysqli_real_escape_string($conn, $_POST['number']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $address = mysqli_real_escape_string($conn, 'Flat no. ' . $_POST['flat'] . ', ' . $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['country'] . ' - ' . $_POST['pin_code']);
+    // Sanitização dos inputs do usuário
+    $name = mysqli_real_escape_string($conn, trim($_POST['name']));
+    $number = mysqli_real_escape_string($conn, trim($_POST['number']));
+    $email = mysqli_real_escape_string($conn, filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL));
+    $address = mysqli_real_escape_string($conn, 'Flat no. ' . trim($_POST['flat']) . ', ' . trim($_POST['street']) . ', ' . trim($_POST['city']) . ', ' . trim($_POST['state']) . ', ' . trim($_POST['country']) . ' - ' . trim($_POST['pin_code']));
     $placed_on = date('Y-m-d H:i:s');
     $cart_total = 0;
+
+    // Verificação de e-mail válido
+    if (!$email) {
+        $message[] = 'Por favor, insira um email válido.';
+    }
 
     // Calcular o total do carrinho
     $cart_query = $conn->prepare("SELECT price, quantity FROM cart WHERE user_id = ?");
@@ -32,38 +42,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
             $cart_total += $sub_total;
         }
     } else {
-        $message[] = 'Your cart is empty';
+        $message[] = 'Seu carrinho está vazio. Por favor, adicione itens antes de continuar.';
     }
 
-    if ($cart_total > 0) {
+    // Verificar se há itens no carrinho antes de criar o PaymentIntent
+    if ($cart_total > 0 && empty($message)) {
         try {
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $cart_total * 100, // Conversão para centavos
-                'currency' => 'eur',
-                'payment_method_types' => ['card'],
-                'metadata' => [
-                    'user_id' => $user_id,
+            // Obter o PaymentMethod ID do frontend (exemplo, ajuste se necessário)
+            $paymentMethodId = $_POST['payment_method_id'] ?? null;
+
+            if (!$paymentMethodId) {
+                $message[] = 'Método de pagamento inválido. Tente novamente.';
+            } else {
+                // Criar PaymentIntent no Stripe
+                $paymentIntent = \Stripe\PaymentIntent::create([
+                    'amount' => $cart_total * 100, // Converter para centavos
+                    'currency' => 'eur',
+                    'payment_method_types' => ['card'], // Garantir que "card" está habilitado
+                    'payment_method' => $paymentMethodId, // Receber este ID do frontend
+                    'confirm' => true, // Confirmar o pagamento automaticamente
+                    'metadata' => [
+                        'user_id' => $user_id,
+                        'name' => $name,
+                        'email' => $email,
+                    ],
+                ]);
+
+                // Armazenar informações na sessão
+                $_SESSION['client_secret'] = $paymentIntent->client_secret;
+                $_SESSION['order_details'] = [
                     'name' => $name,
+                    'number' => $number,
                     'email' => $email,
-                ],
-            ]);
+                    'address' => $address,
+                    'total_price' => $cart_total,
+                    'products' => 'Lista de produtos do carrinho', // Ajustar se necessário
+                ];
 
-            // Armazenar informações para usar na próxima etapa
-            $_SESSION['client_secret'] = $paymentIntent->client_secret;
-            $_SESSION['order_details'] = [
-                'name' => $name,
-                'number' => $number,
-                'email' => $email,
-                'address' => $address,
-                'total_price' => $cart_total,
-                'products' => 'Your product list...', // Ajuste se necessário
-            ];
-
-            header('Location: stripe_payment.php');
-            exit;
+                header('Location: stripe_payment.php');
+                exit;
+            }
         } catch (\Stripe\Exception\ApiErrorException $e) {
-            error_log('Stripe Error: ' . $e->getMessage());
-            $message[] = 'Error creating PaymentIntent: ' . $e->getMessage();
+            error_log('Erro do Stripe: ' . $e->getMessage());
+            $message[] = 'Erro ao criar o pagamento: ' . $e->getMessage();
         }
     }
 }
@@ -78,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
     <title>Checkout</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -91,6 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
     <section class="checkout">
         <form action="" method="post">
             <h3>Finalize Pedido</h3>
+            <?php if (!empty($message)): ?>
+                <div class="message">
+                    <?php foreach ($message as $msg): ?>
+                        <p><?php echo htmlspecialchars($msg); ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <div class="flex">
                 <div class="inputBox">
                     <span>Nome :</span>
@@ -128,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
                     <span>Codigo Postal :</span>
                     <input type="text" name="pin_code" required placeholder="Postal code">
                 </div>
+                <input type="hidden" name="payment_method_id" id="payment-method-id">
             </div>
             <div class="btn-container">
                 <input type="submit" value="Order Now" class="btn" name="order_btn">
