@@ -3,6 +3,7 @@
         "*",
         "mysql"
     ],
+
     "DockerRun.DisableDockerrc": false,
     "DockerRun.Containers": [
         "0c5734534d52",
@@ -12,4 +13,4 @@
         "cbc3a8ac7e2b",
         "47802a6e674b"
     ]
-}
+

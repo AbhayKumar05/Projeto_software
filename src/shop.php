@@ -66,6 +66,7 @@
           }else{
              echo '<p class="empty">Sem produtos no momento!</p>';
           } 
+
         ?>
      </div>
   </section>

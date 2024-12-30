@@ -46,6 +46,7 @@ if (isset($_GET['delete_all'])) {
 <section class="shopping-cart">
     <h1 class="title">Produtos Adicionados</h1>
     <div class="box-container">
+
         <?php 
         $grand_total = 0; 
         $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');

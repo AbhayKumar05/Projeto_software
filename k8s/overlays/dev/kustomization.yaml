@@ -2,4 +2,4 @@ resources:
   - ../../base
 
 patches:
-  - patch.yaml
+  - dev-patch.yaml

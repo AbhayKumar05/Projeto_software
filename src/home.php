@@ -121,11 +121,18 @@ if (isset($_POST['add_to_cart'])) {
     <!-- Section header -->
     <!-- <h1 href="shop.php" class="cormorant-garamond-bold">Ultimos Lançamentos</h1>  -->
 
+
     <!-- Container for product boxes -->
     <!-- <div class="box-container"> -->
         <?php 
         /*
           // Query the database to select up to 6 products
+
+ <section class="products"> 
+    <h1 href="shop.php" class="cormorant-garamond-bold">Ultimos Lançamentos</h1> 
+     <div class="box-container">
+        <?php 
+
           $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
           
           // Check if there are products in the database
@@ -209,7 +216,6 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </div>
 </section>
-
 
 
 
