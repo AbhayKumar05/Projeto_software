@@ -110,10 +110,10 @@ session_start();
 
 
 
-  <!-- <section class="products"> 
+ <section class="products"> 
     <h1 href="shop.php" class="cormorant-garamond-bold">Ultimos Lançamentos</h1> 
      <div class="box-container">
-        <?php /*
+        <?php 
           $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
           if(mysqli_num_rows($select_products) > 0){
            while($fetch_products = mysqli_fetch_assoc($select_products)){
@@ -132,14 +132,14 @@ session_start();
            }
           }else{
           echo '<p class="empty">Sem produtos no momento!</p>';
-          }*/
+          }
         ?>
      </div>
 
     <div class="load-more" style="margin-top: 2rem; text-align:center">
        <a href="shop.php" class="option-btn">Veja mais</a>
     </div>
- </section>-->
+ </section>
 
 
 <section class="carousel">

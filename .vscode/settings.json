@@ -3,7 +3,7 @@
         "*",
         "mysql"
     ],
-    "DockerRun.DisableDockerrc": false,
+    "DockerRun.DisableDockerrc": true,
     "DockerRun.Containers": []
 }
 
