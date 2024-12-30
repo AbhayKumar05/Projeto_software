@@ -69,10 +69,10 @@
   <!-- Image container with text overlay -->
   <div id="register_img" class="image-container">
     <img src="images/register.jpg" alt="Registration Image" id="reg_image">
-    <div class="image-text-box">
+    <!--<div class="image-text-box">
       <h3>Descubra Novos Mundos</h3>
       <p>Com Magna Opus, sua próxima grande leitura está a apenas um clique.</p>
-    </div>
+    </div>-->
   </div>
 </div>
 

@@ -4,18 +4,19 @@
  $admin_id = $_SESSION['admin_id'];
  if(!isset($admin_id)){
     header('location:login.php');
-   }
+ }
  if(isset($_POST['update_order'])){
     $order_update_id = $_POST['order_id'];
     $update_payment = $_POST['update_payment'];
     mysqli_query($conn, "UPDATE `orders` SET payment_status = '$update_payment' WHERE id = '$order_update_id'") or die('query failed');
-    $message[] = 'payment status has been updated!';
-   }
+    $message[] = 'Payment status has been updated!';
+ }
+
  if(isset($_GET['delete'])){
     $delete_id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM `orders` WHERE id = '$delete_id'") or die('query failed');
     header('location:admin_orders.php');
-   }
+ }
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +47,7 @@
                    <p> Email : <span><?php echo $fetch_orders['email']; ?></span> </p>
                    <p> Endereço : <span><?php echo $fetch_orders['address']; ?></span> </p>
                    <p> Todos Produtos : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-                   <p> Preço total : <span>$<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
+                   <p> Preço total : <span>$<?php echo number_format((float)$fetch_orders['total_price'], 2); ?>/-</span> </p>
                    <p> Metodo de Pagamento : <span><?php echo $fetch_orders['method']; ?></span> </p>
                    <form action="" method="post">
                       <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">

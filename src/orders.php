@@ -4,7 +4,7 @@
  $user_id = $_SESSION['user_id'];
  if(!isset($user_id)){
     header('location:login.php');
-   }
+ }
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@
                    <p> Endereço : <span><?php echo $fetch_orders['address']; ?></span> </p>
                    <p> Metodo de pagamento : <span><?php echo $fetch_orders['method']; ?></span> </p>
                    <p> Seus pedidos : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-                   <p> Valor total : <span>$<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
+                   <p> Valor total : <span>$<?php echo number_format($fetch_orders['total_price'], 2, '.', ''); ?>/-</span> </p>
                    <p> Status de pagamento : <span style="color:<?php if($fetch_orders['payment_status'] == 'pending'){ echo 'red'; }else{ echo 'green'; } ?>;"><?php echo $fetch_orders['payment_status']; ?></span> </p>
                 </div>
                 <?php

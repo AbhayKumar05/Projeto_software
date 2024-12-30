@@ -12,10 +12,10 @@
     $msg = mysqli_real_escape_string($conn, $_POST['message']);
     $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE name = '$name' AND email = '$email' AND number = '$number' AND message = '$msg'") or die('query failed');
     if(mysqli_num_rows($select_message) > 0){
-       $message[] = 'message sent already!';
+       $message[] = 'Message sent already!';
     }else{
         mysqli_query($conn, "INSERT INTO `message`(user_id, name, email, number, message) VALUES('$user_id', '$name', '$email', '$number', '$msg')") or die('query failed');
-       $message[] = 'message sent successfully!';
+       $message[] = 'Message sent successfully!';
       }
    }
 ?>
@@ -45,7 +45,7 @@
             <h3>Contacte-nos</h3>
             <input type="text" name="name" required placeholder="Insira seu Nome" class="box">
             <input type="email" name="email" required placeholder="Insira seu Email" class="box">
-            <!--<input name="number" required placeholder="Insira seu Número" class="box">-->
+            <input name="number" required placeholder="Insira seu Número" class="box">
             <textarea name="message" class="box" placeholder="Mensagem" cols="30" rows="10"></textarea>
             <input type="submit" value="Envie" name="send" class="btn">
          </form>
