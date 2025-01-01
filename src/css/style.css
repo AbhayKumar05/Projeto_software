@@ -3,7 +3,7 @@
 /*color*/
 :root{
    --purple:#c57d56;
-   --red:#ff6961;
+   --red:#c40000;
    --orange:#e3af82;
    --black:#333;
    --white:#fff;
@@ -63,11 +63,12 @@ section{
    position: sticky;
    top:0;
    margin:0 auto;
-   max-width: 1200px;
+   /*max-width: 1200px;*/
    background-color: var(--white);
    padding:2rem;
    display: flex;
    align-items: center;
+   box-shadow: var(--box-shadow);
    justify-content: space-between;
    z-index: 10000;
    gap:1.5rem;
@@ -80,7 +81,7 @@ section{
 
 .message i{
    cursor: pointer;
-   color:var(--red);
+   color:#c40000;
    font-size: 2.5rem;
 }
 
@@ -634,7 +635,6 @@ section{
 
 .author{
    color: #5d5c5c;
-   padding-top: 2px;
 }
 
 .genre{
@@ -2488,13 +2488,14 @@ services_card*/
    font-family: 'Playfair Display', serif;
    font-weight: 100;
    font-size: 14px; 
+   padding: 0.5rem 0;
 }
 
 .name, 
 .price {
    color: #bb1a1a;
    padding-top: 1px;
-   font-size: 13px; 
+   font-size: 1.5rem; 
    font-family: 'Playfair Display', serif;
 }
 
