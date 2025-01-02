@@ -14,7 +14,7 @@ if (!$user_id) {
 }
 
 // Inicialização da mensagem
-$message = [];
+$message ??= null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
     // Sanitização dos inputs do usuário
@@ -113,11 +113,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_btn'])) {
             <h3>Finalize Pedido</h3>
             <?php if (!empty($message)): ?>
                 <div class="message">
-                    <?php foreach ($message as $msg): ?>
-                        <p><?php echo htmlspecialchars($msg); ?></p>
-                    <?php endforeach; ?>
+                    <?php if (is_array($message)): ?>
+                        <?php foreach ($message as $msg): ?>
+                            <p><?php echo htmlspecialchars($msg); ?></p>
+                        <?php endforeach; ?>
+                        <?php elseif (is_string($message)): ?>
+                            <p><?php echo htmlspecialchars($message); ?></p>
+                        <?php endif; ?>
                 </div>
             <?php endif; ?>
+
             <div class="flex">
                 <div class="inputBox">
                     <span>Nome :</span>
