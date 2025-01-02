@@ -16,7 +16,7 @@ services:
       #not working - at all
   backend: 
     build:
-      context: ./src
+      context: ./
       dockerfile: Dockerfile
     deploy:
       replicas: 3
@@ -25,17 +25,18 @@ services:
           cpus: "0.5"
           memory: "512M"
     ports:
-      - "9110-9120:3333"
+      - "9110:3333"
     networks:
       - app-network
     depends_on:
       - db
+    command: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
 
   reverse-proxy:
     image: nginx:latest
 
-    #volumes:
-    #- ./src/nginx.conf:/etc/nginx/nginx.conf
+    volumes:
+    - ./src/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
     networks:
