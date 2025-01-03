@@ -7,17 +7,14 @@ if (!isset($admin_id)) {
     header('location:login.php');
 }
 
-// Ensure the price column is set to FLOAT with two decimal places
 mysqli_query($conn, "ALTER TABLE `products` MODIFY COLUMN `price` FLOAT(10, 2) NOT NULL") or die('Query failed');
 
-// Fetch genres for dropdown
 $genres_query = mysqli_query($conn, "SELECT * FROM `genres`") or die('Query failed');
 $genres = [];
 while ($row = mysqli_fetch_assoc($genres_query)) {
     $genres[] = $row;
 }
 
-// Add a product
 if (isset($_POST['add_product'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $author = mysqli_real_escape_string($conn, $_POST['author']);
