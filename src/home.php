@@ -230,13 +230,9 @@ if (isset($_POST['add_to_cart'])) {
 
 
 
-<<<<<<< HEAD
 
 
 <!--<section class="carousel">
-=======
-<section class="carousel">
->>>>>>> origin/Abhay
     <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
     <div class="carousel-container">
         <div class="carousel-items">
