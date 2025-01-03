@@ -1,7 +1,9 @@
+version: "3.9"
+
 services:
   frontend:
+    container_name: frontend-container
     build:
-
       context: ./src
       dockerfile: Dockerfile
     ports:
@@ -10,6 +12,7 @@ services:
       - app-network
 
   backend:
+    container_name: backend-container
     build:
       context: ./
       dockerfile: Dockerfile
@@ -28,9 +31,10 @@ services:
     command: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
 
   reverse-proxy:
+    container_name: reverse-proxy-container
     image: nginx:latest
     volumes:
-    - ./src/nginx.conf:/etc/nginx/nginx.conf
+      - ./src/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
     networks:
@@ -40,6 +44,7 @@ services:
       - backend
 
   db:
+    container_name: db-container
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
