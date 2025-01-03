@@ -12,7 +12,6 @@ services:
       - app-network
 
   backend:
-    container_name: backend-container
     build:
       context: ./
       dockerfile: Dockerfile
