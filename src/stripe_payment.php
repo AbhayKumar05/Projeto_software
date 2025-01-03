@@ -5,17 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stripe Payment</title>
     <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Estilos básicos para uma melhor experiência do usuário */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        #card-element {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #payment-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #payment-form button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #card-errors {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h3>Choose Payment Method</h3>
-
-    <!-- Payment Request Button for Google Pay, Apple Pay, and other wallets -->
-    <div id="payment-request-button"></div>
-
-    <h3>Or Pay with Card</h3>
+    <h3>Pay with Card</h3>
     <form id="payment-form">
-        <div id="card-element"></div>
-        <button type="submit">Pay</button>
+        <!-- Campo para Nome -->
+        <div>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" placeholder="Seu Nome" required>
+        </div>
+
+        <!-- Campo para Email -->
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Seu Email" required>
+        </div>
+
+        <!-- Elemento do Cartão -->
+        <div>
+            <label for="card-element">Detalhes do Cartão:</label>
+            <div id="card-element"></div>
+        </div>
+
+        <!-- Erros do Cartão -->
+        <div id="card-errors" role="alert"></div>
+
+        <!-- Botão de Enviar -->
+        <button id="submit-payment" type="submit">Pagar</button>
     </form>
 
     <script>
@@ -23,108 +72,64 @@
             const stripe = Stripe('pk_test_51QXsEiDzsayfXOwXemJhhZbbbfLMHhBoRq8M8A33gwOwQk0IzPnA4n7u7OTuJUc6IALaLPRyvNnxfwOpQ2BsTCQ400TvhwGlRv');
             const elements = stripe.elements();
 
-            const clientSecret = '<?php echo $_SESSION["client_secret"]; ?>';
-
-            // Create a card element
-            const card = elements.create('card');
+            // Criação do Card Element
+            const card = elements.create('card', {
+                hidePostalCode: true // Opcional: Esconde o campo de código postal
+            });
             card.mount('#card-element');
 
-            // Create a Payment Request Button (for Google Pay, Apple Pay)
-            /*const paymentRequest = stripe.paymentRequest({
-                country: 'US', // Modify based on your country
-                currency: 'eur',
-                total: {
-                    label: 'Total',
-                    amount: <?php /*echo $cart_total * 100; */ ?>, // Total in cents
-                },
-                requestPayerName: true,
-                requestPayerEmail: true,
-            });
-
-            const prButton = elements.create('paymentRequestButton', {
-                paymentRequest,
-            });
-
-            // Check if Payment Request is available
-            paymentRequest.canMakePayment().then((result) => {
-                if (result) {
-                    prButton.mount('#payment-request-button');
+            // Mensagens de erro
+            card.on('change', (event) => {
+                const errorElement = document.getElementById('card-errors');
+                if (event.error) {
+                    errorElement.textContent = event.error.message;
                 } else {
-                    document.getElementById('payment-request-button').style.display = 'none';
+                    errorElement.textContent = '';
                 }
             });
 
-            paymentRequest.on('paymentmethod', async (event) => {
-                const response = await fetch('/create-payment-intent', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ paymentMethodId: event.paymentMethod.id }),
-                });
-
-                const { clientSecret, error } = await response.json();
-
-                if (error) {
-                    event.complete('fail');
-                    console.error(error.message);
-                } else {
-                    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret);
-
-                    if (confirmError) {
-                        console.error(confirmError.message);
-                        event.complete('fail');
-                    } else {
-                        event.complete('success');
-                        alert('Payment Successful!');
-                        window.location.href = '/payment_success.php';
-                    }
-                }
-            });*/
-
-            // Card Form Submit
+            // Formulário de Pagamento
             const form = document.getElementById('payment-form');
             form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+                event.preventDefault();
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card,
-            billing_details: {
-                name: document.getElementById('name').value,
-            },
-        },
-    });
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Processando...';
 
-    if (error) {
-        console.error(error.message);
-    } else {
-        alert('Payment Successful!');
-        window.location.href = '/payment_success.php';
-    }
-});
+                try {
+                    // Obter clientSecret do backend (via sessão ou endpoint específico)
+                    const clientSecret = '<?php echo $_SESSION["client_secret"]; ?>';
+                    if (!clientSecret) {
+                        throw new Error('Client secret não encontrado. Verifique a configuração do servidor.');
+                    }
 
+                    // Confirmar o pagamento com os dados de cobrança
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card,
+                            billing_details: {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value,
+                            },
+                        },
+                    });
 
+                    if (error) {
+                        throw new Error(error.message);
+                    }
 
-const form = document.getElementById('payment-form');
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card,
-            billing_details: {
-                name: document.getElementById('name').value,
-            },
-        },
-    });
+                    // Redireciona após pagamento bem-sucedido
+                    alert('Pagamento realizado com sucesso!');
+                    window.location.href = '/payment_success.php';
 
-    if (error) {
-        console.error(error.message);
-    } else {
-        alert('Payment Successful!');
-        window.location.href = '/payment_success.php';
-    }
-});
-
-
+                } catch (err) {
+                    document.getElementById('card-errors').textContent = err.message;
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Pagar';
+                }
+            });
         });
     </script>
 </body>
