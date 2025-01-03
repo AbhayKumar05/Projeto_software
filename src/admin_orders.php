@@ -5,7 +5,6 @@
  if(!isset($admin_id)){
     header('location:login.php');
  }
-
  if(isset($_POST['update_order'])){
     $order_update_id = $_POST['order_id'];
     $update_payment = $_POST['update_payment'];
