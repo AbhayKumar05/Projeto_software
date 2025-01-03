@@ -1,8 +1,4 @@
-#version: "3.8"
-version: "3.9"
-
 services:
-  #not working - partially 
   frontend:
     build:
 
@@ -13,8 +9,7 @@ services:
     networks:
       - app-network
 
-      #not working - at all
-  backend: 
+  backend:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -34,7 +29,6 @@ services:
 
   reverse-proxy:
     image: nginx:latest
-
     volumes:
     - ./src/nginx.conf:/etc/nginx/nginx.conf
     ports:
@@ -45,31 +39,16 @@ services:
       - frontend
       - backend
 
- # db:
- #   image: mysql:8
- #    environment:
- #     MYSQL_ROOT_PASSWORD: rootpassword
- #     MYSQL_DATABASE: shop_db
- #     MYSQL_USER: root
- #     MYSQL_PASSWORD: root
- #  ports:
- #     - "3306:3306"
- #   networks:
- #     - app-network
-      
   db:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: shop_db
-      #MYSQL_USER: root
-      #MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     networks:
       - app-network
 
-networks:       
+networks:
   app-network:
     driver: bridge
-

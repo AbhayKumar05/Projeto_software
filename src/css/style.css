@@ -3,7 +3,7 @@
 /*color*/
 :root{
    --purple:#c57d56;
-   --red:#ff6961;
+   --red:#c40000;
    --orange:#e3af82;
    --black:#333;
    --white:#fff;
@@ -63,11 +63,12 @@ section{
    position: sticky;
    top:0;
    margin:0 auto;
-   max-width: 1200px;
+   /*max-width: 1200px;*/
    background-color: var(--white);
    padding:2rem;
    display: flex;
    align-items: center;
+   box-shadow: var(--box-shadow);
    justify-content: space-between;
    z-index: 10000;
    gap:1.5rem;
@@ -80,7 +81,7 @@ section{
 
 .message i{
    cursor: pointer;
-   color:var(--red);
+   color:#c40000;
    font-size: 2.5rem;
 }
 
@@ -623,13 +624,23 @@ section{
 
 .products .box-container .box .image{
    height: 290px;
+   max-width: 200px;
 }
 
 .products .box-container .box .name{
    padding:1rem 0;
-   font-size: 2rem;
+   font-size: 1.7rem;
    color:var(--black);
    font-family: 'Playfair Display', serif;
+}
+
+.author{
+   color: #5d5c5c;
+}
+
+.genre{
+   color: #5d5c5c;
+   padding-bottom: 3px;
 }
 
 .products .box-container .box .qty{
@@ -2471,6 +2482,7 @@ services_card*/
    height: 290px;
    max-height: 290px; 
    object-fit: cover;
+   max-width: 200px;
 }
 
 .carousel-item-info h3 {
@@ -2478,13 +2490,14 @@ services_card*/
    font-family: 'Playfair Display', serif;
    font-weight: 100;
    font-size: 14px; 
+   padding: 0.5rem 0;
 }
 
 .name, 
 .price {
    color: #bb1a1a;
    padding-top: 1px;
-   font-size: 13px; 
+   font-size: 1.5rem; 
    font-family: 'Playfair Display', serif;
 }
 

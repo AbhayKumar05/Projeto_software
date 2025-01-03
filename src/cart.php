@@ -1,8 +1,8 @@
 <?php
 include 'config.php';
 session_start();
-$user_id = $_SESSION['user_id'];
 
+$user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
@@ -10,18 +10,18 @@ if (!isset($user_id)) {
 if (isset($_POST['update_cart'])) {
     $cart_id = $_POST['cart_id'];
     $cart_quantity = $_POST['cart_quantity'];
-    mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id = '$cart_id'") or die('query failed');
+    mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id = '$cart_id'") or die('Query failed');
     $message[] = 'Quantidade atualizada!';
 }
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM `cart` WHERE id = '$delete_id'") or die('query failed');
+    mysqli_query($conn, "DELETE FROM `cart` WHERE id = '$delete_id'") or die('Query failed');
     header('location:cart.php');
 }
 
 if (isset($_GET['delete_all'])) {
-    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('Query failed');
     header('location:cart.php');
 }
 ?>
@@ -38,9 +38,10 @@ if (isset($_GET['delete_all'])) {
 </head>
 <body>
 <?php include 'header.php'; ?>
+
 <div class="heading">
     <h3>Compras</h3>
-    <p> <a href="home.php">Home</a> / Carrinho </p>
+    <p><a href="home.php">Home</a> / Carrinho</p>
 </div>
 
 <section class="shopping-cart">
@@ -49,7 +50,14 @@ if (isset($_GET['delete_all'])) {
 
         <?php 
         $grand_total = 0; 
-        $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+        $select_cart = mysqli_query($conn, "
+            SELECT c.*, p.author, g.name AS genre_name, p.price, p.image 
+            FROM `cart` c 
+            JOIN `products` p ON c.name = p.name 
+            JOIN `genres` g ON p.genre_id = g.id 
+            WHERE c.user_id = '$user_id'
+        ") or die('Query failed');
+
         if (mysqli_num_rows($select_cart) > 0) {
             while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {   
         ?>
@@ -57,16 +65,18 @@ if (isset($_GET['delete_all'])) {
             <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Tirar do Carrinho?');"></a>
             <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
             <div class="name"><?php echo $fetch_cart['name']; ?></div>
-            <div class="price">€<?php echo number_format((float)$fetch_cart['price'], 2); ?>/-</div>
+            <div class="author">Autor: <?php echo $fetch_cart['author']; ?></div>
+            <div class="genre">Gênero: <?php echo $fetch_cart['genre_name']; ?></div>
+            <div class="price">€<?php echo number_format($fetch_cart['price'], 2, '.', ''); ?></div>
             <form action="" method="post">
                 <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
-                <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>">
+                <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>" class="qty">
                 <input type="submit" name="update_cart" value="Atualizar" class="option-btn">
             </form>
-            <div class="sub-total"> Sub total : <span>€<?php echo number_format((float)($fetch_cart['quantity'] * $fetch_cart['price']), 2); ?></span> </div>
+            <div class="sub-total"> Sub total: <span>€<?php echo number_format($fetch_cart['quantity'] * $fetch_cart['price'], 2, '.', ''); ?></span> </div>
         </div>
         <?php
-            $grand_total += ($fetch_cart['quantity'] * (float)$fetch_cart['price']);
+            $grand_total += $fetch_cart['quantity'] * $fetch_cart['price'];
             }
         } else {
             echo '<p class="empty">Sem produtos adicionados</p>';
@@ -75,21 +85,19 @@ if (isset($_GET['delete_all'])) {
     </div>
 
     <div style="margin-top: 2rem; text-align:center;">
-        <a href="cart.php?delete_all" class="delete-btn <?php  echo ($grand_total > 1)?'':'disabled'; ?>" onclick="return confirm('delete all from cart?');">Retirar tudo</a>
+        <a href="cart.php?delete_all" class="delete-btn <?php  echo ($grand_total > 0) ? '' : 'disabled'; ?>" onclick="return confirm('delete all from cart?');">Retirar tudo</a>
     </div>
 
     <div class="cart-total">
-        <p>Grand total : <span>€<?php echo number_format((float)$grand_total, 2); ?>/-</span></p>
+        <p>Grand total: <span>€<?php echo number_format($grand_total, 2, '.', ''); ?>/-</span></p>
         <div class="flex">
             <a href="shop.php" class="option-btn">Continue Comprando</a>
-            <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">Finalizar</a>
+            <a href="checkout.php" class="btn <?php echo ($grand_total > 0) ? '' : 'disabled'; ?>">Finalizar</a>
         </div>
     </div>
-
 </section>
 
 <?php include 'footer.php'; ?>
 <script src="js/script.js"></script>
-
 </body>
 </html>

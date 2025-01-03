@@ -7,28 +7,31 @@ if (!isset($user_id)) {
     header('location:login.php');
 }
 
-// Update the products and cart table to use FLOAT for price fields
-mysqli_query($conn, "ALTER TABLE `products` MODIFY COLUMN `price` FLOAT NOT NULL") or die('Query failed');
-mysqli_query($conn, "ALTER TABLE `cart` MODIFY COLUMN `price` FLOAT NOT NULL") or die('Query failed');
-
-// Alter total_price in orders table to FLOAT
-mysqli_query($conn, "ALTER TABLE `orders` MODIFY COLUMN `total_price` FLOAT NOT NULL") or die('Query failed');
-
 if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_price = floatval($_POST['product_price']);
     $product_image = $_POST['product_image'];
-    $product_quantity = $_POST['product_quantity'];
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
+    $product_quantity = intval($_POST['product_quantity']);
+
+    $check_cart_numbers = mysqli_query($conn, "
+        SELECT * 
+        FROM `cart` 
+        WHERE product_id = '$product_id' AND user_id = '$user_id'
+    ") or die('Query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Já está no carrinho!';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
+        mysqli_query($conn, "
+            INSERT INTO `cart` (user_id, product_id, name, price, quantity, image) 
+            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
+        ") or die('Query failed');
         $message[] = 'Produto adicionado!';
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -186,7 +189,12 @@ if (isset($_POST['add_to_cart'])) {
             <?php
             include 'config.php';
 
-            $fetch_products_query = mysqli_query($conn, "SELECT * FROM `products` ORDER BY id DESC LIMIT 5") or die('Query failed');
+            $fetch_products_query = mysqli_query($conn, "
+                SELECT p.*, g.name AS genre 
+                FROM `products` p 
+                JOIN `genres` g ON p.genre_id = g.id 
+                ORDER BY p.id DESC LIMIT 5
+            ") or die('Query failed');
 
             if(mysqli_num_rows($fetch_products_query) > 0) {
                 while($product = mysqli_fetch_assoc($fetch_products_query)) {
@@ -195,8 +203,11 @@ if (isset($_POST['add_to_cart'])) {
                         <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="carousel-image">
                         <div class="carousel-item-info">
                             <h3><?php echo $product['name']; ?></h3>
+                            <p class="author">Autor: <?php echo $product['author']; ?></p>
+                            <p class="genre">Gênero: <?php echo $product['genre']; ?></p>
                             <p class="price">€<?php echo number_format($product['price'], 2); ?></p>
                             <form action="" method="post">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                 <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
                                 <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
                                 <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
@@ -219,11 +230,12 @@ if (isset($_POST['add_to_cart'])) {
 
 
 
-<section class="carousel">
+
+
+<!--<section class="carousel">
     <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
     <div class="carousel-container">
         <div class="carousel-items">
-            <!-- Book 1 -->
             <div class="carousel-item">
                 <img src="images/book__2.jpg" alt="Book 1" class="carousel-image">
                 <div class="carousel-item-info">
@@ -234,7 +246,6 @@ if (isset($_POST['add_to_cart'])) {
                     </button>
                 </div>
             </div>
-            <!-- Book 2 -->
             <div class="carousel-item">
                 <img src="images/book__1.jpg" alt="Book 2" class="carousel-image">
                 <div class="carousel-item-info">
@@ -245,7 +256,6 @@ if (isset($_POST['add_to_cart'])) {
                     </button>
                 </div>
             </div>
-            <!-- Book 3 -->
             <div class="carousel-item">
                 <img src="images/book__3.jpg" alt="Book 3" class="carousel-image">
                 <div class="carousel-item-info">
@@ -256,7 +266,6 @@ if (isset($_POST['add_to_cart'])) {
                     </button>
                 </div>
             </div>
-            <!-- Book 4 -->
             <div class="carousel-item">
                 <img src="images/book__4.jpg" alt="Book 4" class="carousel-image">
                 <div class="carousel-item-info">
@@ -267,7 +276,6 @@ if (isset($_POST['add_to_cart'])) {
                     </button>
                 </div>
             </div>
-            <!-- Book 5 -->
             <div class="carousel-item">
                 <img src="images/home_book3.png" alt="Book 1" class="carousel-image" onclick="openModal('Paleoarctic', '€19.99', 'images/home_book3.png', 'This riveting paperback explores the lives of six remarkable female pharaohs, from Hatshepsut to Cleopatra, and shines a piercing light on perceptions of powerful women today. Regularly, repeatedly, and with impunity, queens like Hatshepsut, Nefertiti.')">
                 <div class="carousel-item-info">
@@ -282,7 +290,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 
 <!-- Working pop-up 
@@ -411,92 +419,44 @@ if (isset($_POST['add_to_cart'])) {
 </section>
 
  <section class="recommendations">
-   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
-   <div class="flex-books">
-      <div class="book">
-         <img id="home_rec" src="images/book__3.jpg" alt="Book 1">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€22.59</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__4.jpg" alt="Book 2">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€17.99</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 3">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€17.99</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-   </div>
-   
-   <div class="flex-books">
-      <div class="book">
-         <img id="home_rec" src="images/book__2.jpg" alt="Book 4">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€22.59</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__1.jpg" alt="Book 5">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__3.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-   </div>
+            <h1 class="section-title">Recomendações com base em compras anteriores</h1>
+            <div class="flex-books" id="book-container">
+               
+            </div>
+        </section>
+        <script>
+            async function carregarRecomendacoes() {
+                const response = await fetch("/recomendar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        user_id: 1,
+                        preferencias: [20.00, 0, 5]
+                    })
+                });
+                const data = await response.json();
+                const flexBooks = document.getElementById("book-container");
+                flexBooks.innerHTML = "";
+                data.recomendacoes.forEach(livro => {
+                    const bookElement = `
+                        <div class="book">
+                            <img src="images/book_${livro['id']}.jpg" alt="Capa do ${livro['name']}" class="book-image">
+                            <div class="book-info">
+                                <h3 class="book-title">${livro['name']}</h3>
+                                <p class="book-price">€${livro['price'].toFixed(2)}</p>
+                                <button class="add-to-cart-btn" aria-label="Adicionar ${livro['name']} ao carrinho">
+                                    <span class="material-icons" aria-hidden="true">local_mall</span> Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    flexBooks.innerHTML += bookElement;
+                });
+            }
+
+    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);   
 </section>
 
 <section class="home-contact">
