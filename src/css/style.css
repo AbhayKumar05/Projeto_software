@@ -624,6 +624,7 @@ section{
 
 .products .box-container .box .image{
    height: 290px;
+   max-width: 200px;
 }
 
 .products .box-container .box .name{
@@ -2481,6 +2482,7 @@ services_card*/
    height: 290px;
    max-height: 290px; 
    object-fit: cover;
+   max-width: 200px;
 }
 
 .carousel-item-info h3 {
