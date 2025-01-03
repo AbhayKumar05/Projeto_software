@@ -23,7 +23,7 @@ services:
           cpus: "0.5"
           memory: "512M"
     ports:
-      - "9110:3333"
+      - "9110-9119:3333"
     networks:
       - app-network
     depends_on:
