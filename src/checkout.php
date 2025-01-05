@@ -68,10 +68,10 @@
              <?php
             }
         }else{
-          echo '<p class="empty">your cart is empty</p>';
+          echo '<p class="empty">O seu carrinho está vazio.</p>';
          } 
       ?>
-     <div class="grand-total"> grand total : <span>$<?php echo $grand_total; ?>/-</span> </div>
+     <div class="grand-total"> Grand total : <span>$<?php echo $grand_total; ?>/-</span> </div>
   </section>
 
   <section class="checkout">
