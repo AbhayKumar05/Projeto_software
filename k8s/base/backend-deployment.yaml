@@ -16,12 +16,12 @@ spec:
       - name: backend
         image: php:8.1-apache
         resources:
-      requests:
-        memory: "256Mi"
-        cpu: "300m"
-      limits:
-        memory: "512Mi"
-        cpu: "1"
+          requests:
+            memory: "256Mi"
+            cpu: "300m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
         ports:
         - containerPort: 80
         volumeMounts:
@@ -32,4 +32,4 @@ spec:
         hostPath:
           path: /Users/RAKESHKUMAR/Desktop/IADE/Semester 5th/Projeto_software/src # Caminho absoluto no host
           type: Directory
-       
+

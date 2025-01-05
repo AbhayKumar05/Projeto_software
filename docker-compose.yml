@@ -2,7 +2,7 @@ services:
   frontend:
     container_name: frontend-container
     build:
-      context: ./src
+      context: ./
       dockerfile: Dockerfile
     deploy:
       replicas: 3
