@@ -16,6 +16,7 @@ def conectar_bd():
     )
 
 
+
 def carregar_dados_produtos():
     conn = conectar_bd()
     cursor = conn.cursor()

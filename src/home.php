@@ -468,7 +468,7 @@ if (isset($_POST['add_to_cart'])) {
            
             const userId = document.body.dataset.userId;
 
-            const response = await fetch("/recomendar", {
+            const response = await fetch("http://127.0.0.1:5000/recomendar", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -516,6 +516,7 @@ if (isset($_POST['add_to_cart'])) {
     
     const userId = "{{ session['user_id'] }}";
 </script>
+
 
 
     // Executar a função ao carregar a página
