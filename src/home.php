@@ -517,12 +517,6 @@ if (isset($_POST['add_to_cart'])) {
     const userId = "{{ session['user_id'] }}";
 </script>
 
-
-
-    // Executar a função ao carregar a página
-    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
-</scrip>
-
 <section class="home-contact">
     <div class="content">
        <h1 class="cormorant-garamond-bold">Tem questões?</h1>
