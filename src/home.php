@@ -459,6 +459,69 @@ if (isset($_POST['add_to_cart'])) {
     document.addEventListener("DOMContentLoaded", carregarRecomendacoes);   
 </section>
 
+
+
+
+<script>
+    async function carregarRecomendacoes() {
+        try {
+           
+            const userId = document.body.dataset.userId;
+
+            const response = await fetch("/recomendar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: userId
+                })
+            });
+
+            const data = await response.json();
+            const flexBooks = document.getElementById("book-container");
+
+            
+            flexBooks.innerHTML = "";
+
+            
+            if (data.recomendacoes.length === 0) {
+                flexBooks.innerHTML = "<p>Nenhuma recomendação disponível no momento.</p>";
+                return;
+            }
+            
+            const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
+
+            
+            recomendacoesLimitadas.forEach(livro => {
+                const bookElement = `
+                    <div class="book">
+                        <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+                        <div class="book-info">
+                            <h3 class="book-title">${livro.name}</h3>
+                            <p class="book-price">€${livro.price.toFixed(2)}</p>
+                            <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                                <span class="material-icons" aria-hidden="true">local_mall</span> Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                `;
+                flexBooks.innerHTML += bookElement;
+            });
+        } catch (error) {
+            console.error("Erro ao carregar recomendações:", error);
+            document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
+        }
+    }
+    
+    const userId = "{{ session['user_id'] }}";
+</script>
+
+
+    // Executar a função ao carregar a página
+    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
+</scrip>
+
 <section class="home-contact">
     <div class="content">
        <h1 class="cormorant-garamond-bold">Tem questões?</h1>
