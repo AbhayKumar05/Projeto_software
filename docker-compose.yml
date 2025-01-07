@@ -7,7 +7,7 @@ services:
       context: ./src
       dockerfile: Dockerfile
     ports:
-      - "3100:3000"
+      - "3000:80"
     networks:
       - app-network
 
@@ -22,7 +22,7 @@ services:
           cpus: "0.5"
           memory: "512M"
     ports:
-      - "9110-9119:3333"
+      - "9110:80"
     networks:
       - app-network
     depends_on:
