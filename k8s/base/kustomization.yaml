@@ -1,0 +1,13 @@
+resources:
+
+  - backend-deployment.yaml
+  - backend-service.yaml
+  - db-deployment.yaml
+  - db-pvc.yaml
+  - db-service.yaml
+  - frontend-deployment.yaml
+  - frontend-service.yaml
+  - nginx-config.yaml
+  - reverse-proxy-deployment.yaml
+  - reverse-proxy-servece.yaml
+  

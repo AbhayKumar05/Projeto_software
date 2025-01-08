@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: php:8.1-apache
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "300m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: src-volume
+          mountPath: /var/www/html # Onde os arquivos serão montados no contêiner
+      volumes:
+      - name: src-volume
+        hostPath:
+          path: /Users/RAKESHKUMAR/Desktop/IADE/Semester 5th/Projeto_software/src # Caminho absoluto no host
+          type: Directory
+
