@@ -32,14 +32,15 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Read JSON file with book recommendations
-$json_path = 'recomendacoes.json';
+$json_path = 'recommendations.json';
 if (file_exists($json_path)) {
-    $json_file = file_get_contents('../recomendacoes.json');
+    $json_file = file_get_contents($json_path);
     $recommendations = json_decode($json_file, true);
 } else {
     $recommendations = [];
     error_log("File not found: $json_path");
 }
+
 ?>
 
 
@@ -530,6 +531,50 @@ if (file_exists($json_path)) {
       <!-- Dynamic content (books) will be inserted here -->
    </div>
 </section>
+<?php
+// Path to the recommendations file
+$json_path = 'recommendations.json';
+
+// Load recommendations if file exists
+if (file_exists($json_path)) {
+    $json_file = file_get_contents($json_path);
+    $recommendations = json_decode($json_file, true)['recomendacoes'];
+} else {
+    $recommendations = [];
+    error_log("File not found: $json_path");
+}
+
+// Display recommendations
+if (!empty($recommendations)) {
+    foreach ($recommendations as $product) {
+        ?>
+        <div class="carousel-item">
+            <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="carousel-image">
+            <div class="carousel-item-info">
+                <h3><?php echo $product['name']; ?></h3>
+                <p class="author">Autor: <?php echo $product['author']; ?></p>
+                <p class="genre">Gênero: <?php echo $product['genre']; ?></p>
+                <p class="price">€<?php echo number_format($product['price'], 2); ?></p>
+                <form action="" method="post">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
+                    <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
+                    <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
+                    <input type="number" name="product_quantity" value="1" min="1" class="quantity-box">
+                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </form>
+            </div>
+        </div>
+        <?php
+    }
+} else {
+    echo '<p class="empty">Sem recomendações disponíveis!</p>';
+}
+?>
+
+
 
 <script>
     async function carregarRecomendacoes() {
@@ -579,21 +624,21 @@ if (file_exists($json_path)) {
                 flexBooks.innerHTML += bookElement;
             });*/
             const flexBooks = document.getElementById("book-container");
-      data.recomendacoes.forEach(livro => {
-      const bookElement = `
-        <div class="book">
-            <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
-            <div class="carousel-item-info">
-                <h3 class="book-title">${livro.name}</h3>
-                <p class="price">€${livro.price.toFixed(2)}</p>
-                <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
-                    <span class="material-icons">local_mall</span> Adicionar ao Carrinho
-                </button>
-            </div>
-         </div>
-        `;
-        flexBooks.innerHTML += bookElement;
-     });
+            data.recomendacoes.forEach(livro => {
+                onst bookElement = `
+                 <div class="book">
+                 <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+                    <div class="carousel-item-info">
+                        <h3 class="book-title">${livro.name}</h3>
+                        <p class="price">€${livro.price.toFixed(2)}</p>
+                        <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                        <span class="material-icons">local_mall</span> Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+                `;
+            flexBooks.innerHTML += bookElement;
+        });
         } catch (error) {
             console.error("Erro ao carregar recomendações:", error);
             document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";

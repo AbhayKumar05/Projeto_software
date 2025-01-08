@@ -18,11 +18,16 @@ def conectar_bd():
 def carregar_dados_produtos():
     conn = conectar_bd()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, price, category, tags FROM products")
+    cursor.execute("""
+        SELECT p.id, p.name, p.price, p.image, p.author, g.name AS genre 
+        FROM products p 
+        JOIN genres g ON p.genre_id = g.id
+    """)
     produtos = cursor.fetchall()
     cursor.close()
     conn.close()
     return produtos
+
 
 def carregar_historico_compras(user_id):
     conn = conectar_bd()
@@ -40,11 +45,10 @@ def carregar_historico_compras(user_id):
     return produtos_comprados
 
 def preprocessar_dados(produtos):
-    df = pd.DataFrame(produtos, columns=["id", "name", "price", "category", "tags"])
-    df['category'] = pd.Categorical(df['category']).codes
-    df['tags'] = pd.Categorical(df['tags']).codes
-    dados_preprocessados = df[['price', 'category', 'tags']].values
+    df = pd.DataFrame(produtos, columns=["id", "name", "price", "image", "author", "genre"])
+    dados_preprocessados = df[['price']].values 
     return dados_preprocessados, df
+
 
 def treinar_kmeans(dados_produtos, n_clusters=3):
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
@@ -58,26 +62,29 @@ def recomendar():
         if not user_id:
             return jsonify({"erro": "Utilizador não autenticado."}), 401
 
+        # Load product data
         produtos = carregar_dados_produtos()
         dados_produtos, df = preprocessar_dados(produtos)
         kmeans = treinar_kmeans(dados_produtos)
         df['cluster'] = kmeans.labels_
+
+        # Load purchased product IDs
         produtos_comprados_ids = carregar_historico_compras(user_id)
         if not produtos_comprados_ids:
-            recomendacoes_vazias = jsonify({"recomendacoes": [], "mensagem": "Nenhum histórico de compras encontrado."}), 200
-            with open("recomendacoes.json", "w") as f:
-                json.dump(recomendacoes_vazias, f)
-            return jsonify(recomendacoes_vazias), 200
+            return jsonify({"recomendacoes": [], "mensagem": "Nenhum histórico de compras encontrado."}), 200
 
+        # Determine clusters of purchased products
         clusters_comprados = df[df['id'].isin(produtos_comprados_ids)]['cluster'].unique()
-        recomendacoes = df[df['cluster'].isin(clusters_comprados) & ~df['id'].isin(produtos_comprados_ids)]
-        recomendacoes_json = recomendacoes.to_dict(orient='records')
 
-        with open("recomendacoes.json", "w") as f:
-                json.dump(recomendacoes_json, f)
+        # Recommend products not purchased but in the same cluster
+        recomendacoes = df[df['cluster'].isin(clusters_comprados) & ~df['id'].isin(produtos_comprados_ids)]
+        recomendacoes_json = recomendacoes[["id", "name", "price", "image", "author", "genre"]].to_dict(orient='records')
+
+        # Return the recommendations as JSON
         return jsonify({"recomendacoes": recomendacoes_json}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
+
