@@ -53,7 +53,7 @@ section{
 .empty{
    padding:1.5rem;
    text-align: center;
-   border:var(--border);
+   /*border:var(--border);*/
    background-color: var(--white);
    color:var(--red);
    font-size: 2rem;

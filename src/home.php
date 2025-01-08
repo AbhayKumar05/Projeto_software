@@ -31,6 +31,45 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Produto adicionado!';
     }
 }
+// URL do endpoint no Flask
+$api_url = "http://localhost:5000/recomendar";
+
+// Configurar a solicitação cURL
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+
+// Definir cabeçalhos e sessão para autenticação
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'Authorization: Bearer ' . session_id(), // Enviar o ID da sessão para autenticação
+]);
+
+// Executar a solicitação
+$response = curl_exec($ch);
+
+// Verificar se ocorreu um erro
+if (curl_errno($ch)) {
+    echo "Erro ao conectar ao servidor de recomendações: " . curl_error($ch);
+    curl_close($ch);
+    exit;
+}
+
+// Fechar a conexão cURL
+curl_close($ch);
+
+// Decodificar a resposta JSON
+$data = json_decode($response, true);
+
+// Verificar erros na resposta
+if (isset($data['erro'])) {
+    echo "Erro do servidor: " . $data['erro'];
+    exit;
+}
+
+// Exibir as recomendações na página
+$recomendacoes = $data['recomendacoes'] ?? [];
 ?>
 
 
@@ -457,8 +496,23 @@ if (isset($_POST['add_to_cart'])) {
                 });
             }
 
-    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);   
+    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
 </section>
+
+<h1>Recomendações de Livros</h1>
+    <?php if (empty($recomendacoes)): ?>
+        <p>Nenhuma recomendação disponível no momento.</p>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($recomendacoes as $livro): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($livro['name']); ?></strong><br>
+                    Preço: <?php echo htmlspecialchars($livro['price']); ?>€<br>
+                    Categoria: <?php echo htmlspecialchars($livro['category']); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
 <section class="home-contact">
     <div class="content">
