@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, session
 import mysql.connector
 import pandas as pd
 from sklearn.cluster import KMeans
+import json
 
 app = Flask(__name__)
 app.secret_key = '7a2b7aab5c34d9c4b178a1d94aabf29f'
@@ -63,12 +64,17 @@ def recomendar():
         df['cluster'] = kmeans.labels_
         produtos_comprados_ids = carregar_historico_compras(user_id)
         if not produtos_comprados_ids:
-            return jsonify({"recomendacoes": [], "mensagem": "Nenhum histórico de compras encontrado."}), 200
+            recomendacoes_vazias = jsonify({"recomendacoes": [], "mensagem": "Nenhum histórico de compras encontrado."}), 200
+            with open("recomendacoes.json", "w") as f:
+                json.dump(recomendacoes_vazias, f)
+            return jsonify(recomendacoes_vazias), 200
 
         clusters_comprados = df[df['id'].isin(produtos_comprados_ids)]['cluster'].unique()
         recomendacoes = df[df['cluster'].isin(clusters_comprados) & ~df['id'].isin(produtos_comprados_ids)]
         recomendacoes_json = recomendacoes.to_dict(orient='records')
 
+        with open("recomendacoes.json", "w") as f:
+                json.dump(recomendacoes_json, f)
         return jsonify({"recomendacoes": recomendacoes_json}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500

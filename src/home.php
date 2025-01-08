@@ -30,7 +30,18 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Produto adicionado!';
     }
 }
+
+// Read JSON file with book recommendations
+$json_path = 'recommendations.json';
+if (file_exists($json_path)) {
+    $json_file = file_get_contents('../recommendations.json');
+    $recommendations = json_decode($json_file, true);
+} else {
+    $recommendations = [];
+    error_log("File not found: $json_path");
+}
 ?>
+
 
 
 
@@ -410,15 +421,13 @@ if (isset($_POST['add_to_cart'])) {
       <img src="images/home_book3.png" alt="Third Image">
    </div>
 </section>
-
-
 <section class="our-story-section">
    <h1>Our Story - A Nossa História</h1>
    <p>Na Ventorim's Book Store, acreditamos que os livros têm o poder de transformar vidas. Somos mais do que uma livraria; somos um espaço onde a imaginação não tem limites e cada página vira uma nova descoberta.</p>
    <p>Fundada com o objetivo de aproximar leitores de todo o mundo, oferecemos uma vasta seleção de títulos que despertam emoções, desafiam perspectivas e promovem o conhecimento. Cada livro é escolhido com cuidado, garantindo uma experiência única a cada leitura. Seja para explorar os grandes clássicos, descobrir novos talentos ou aprofundar o seu conhecimento, a nossa missão é proporcionar momentos inesquecíveis através do prazer da leitura. Venha fazer parte desta jornada connosco.</p>
 </section>
 
- <section class="recommendations">
+<!-- <section class="recommendations">
             <h1 class="section-title">Recomendações com base em compras anteriores</h1>
             <div class="flex-books" id="book-container">
                
@@ -457,12 +466,10 @@ if (isset($_POST['add_to_cart'])) {
             }
 
     document.addEventListener("DOMContentLoaded", carregarRecomendacoes);   
-</section>
+</section>-->
 
 
-
-
-<script>
+<!--<script>
     async function carregarRecomendacoes() {
         try {
            
@@ -515,7 +522,88 @@ if (isset($_POST['add_to_cart'])) {
     }
     
     const userId = "{{ session['user_id'] }}";
+</script>-->
+
+<section class="recommendations">
+   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
+   <div class="flex-books" id="book-container">
+      <!-- Dynamic content (books) will be inserted here -->
+      const flexBooks = document.getElementById("book-container");
+      data.recomendacoes.forEach(livro => {
+      const bookElement = `
+        <div class="book">
+            <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+            <div class="carousel-item-info">
+                <h3 class="book-title">${livro.name}</h3>
+                <p class="price">€${livro.price.toFixed(2)}</p>
+                <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                    <span class="material-icons">local_mall</span> Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+    `;
+    flexBooks.innerHTML += bookElement;
+});
+   </div>
+</section>
+
+<script>
+    async function carregarRecomendacoes() {
+        try {
+            const userId = document.body.dataset.userId || 1; // Replace 1 with a dynamic user ID if necessary
+
+            const response = await fetch("http://127.0.0.1:5000/recomendar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: userId
+                })
+            });
+
+            const data = await response.json();
+            const flexBooks = document.getElementById("book-container");
+
+            // Clear the container before adding new recommendations
+            flexBooks.innerHTML = "";
+
+            // Check if there are recommendations
+            if (data.recomendacoes.length === 0) {
+                flexBooks.innerHTML = "<p>Nenhuma recomendação disponível no momento.</p>";
+                return;
+            }
+
+
+            // Limit recommendations to a maximum of 8 items
+            const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
+
+            // Append each book to the container
+            recomendacoesLimitadas.forEach(livro => {
+                const bookElement = `
+                    <div class="book">
+                        <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+                        <div class="carousel-item-info">
+                            <h3 class="book-title">${livro.name}</h3>
+                            <p class="price">€${livro.price.toFixed(2)}</p>
+                            <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                                <span class="material-icons">local_mall</span> Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                `;
+                flexBooks.innerHTML += bookElement;
+            });
+        } catch (error) {
+            console.error("Erro ao carregar recomendações:", error);
+            document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
+        }
+    }
+
+    // Trigger the function when the page is fully loaded
+    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
 </script>
+
 
 <section class="home-contact">
     <div class="content">
