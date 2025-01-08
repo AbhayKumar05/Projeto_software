@@ -1,10 +1,11 @@
 <?php
-include 'config.php';
-session_start();
-$user_id = $_SESSION['user_id'];
+include_once __DIR__ . '/src/config.php';
 
-if (!isset($user_id)) {
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
     header('location:login.php');
+    exit();
 }
 
 if (isset($_POST['add_to_cart'])) {
@@ -30,7 +31,6 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Produto adicionado!';
     }
 }
-
 // URL do endpoint no Flask
 $api_url = "http://localhost:5000/recomendar";
 
@@ -71,7 +71,6 @@ if (isset($data['erro'])) {
 // Exibir as recomendações na página
 $recomendacoes = $data['recomendacoes'] ?? [];
 ?>
-
 
 
 
@@ -270,6 +269,9 @@ $recomendacoes = $data['recomendacoes'] ?? [];
 </section>
 
 
+
+
+
 <!--<section class="carousel">
     <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
     <div class="carousel-container">
@@ -432,6 +434,11 @@ $recomendacoes = $data['recomendacoes'] ?? [];
     </div>
 </div>
 
+
+
+
+
+
  <section class="image-section">
    <div class="image-container first-image">
       <img src="images/home_book4.png" alt="First Image">
@@ -443,13 +450,15 @@ $recomendacoes = $data['recomendacoes'] ?? [];
       <img src="images/home_book3.png" alt="Third Image">
    </div>
 </section>
+
+
 <section class="our-story-section">
    <h1>Our Story - A Nossa História</h1>
    <p>Na Ventorim's Book Store, acreditamos que os livros têm o poder de transformar vidas. Somos mais do que uma livraria; somos um espaço onde a imaginação não tem limites e cada página vira uma nova descoberta.</p>
    <p>Fundada com o objetivo de aproximar leitores de todo o mundo, oferecemos uma vasta seleção de títulos que despertam emoções, desafiam perspectivas e promovem o conhecimento. Cada livro é escolhido com cuidado, garantindo uma experiência única a cada leitura. Seja para explorar os grandes clássicos, descobrir novos talentos ou aprofundar o seu conhecimento, a nossa missão é proporcionar momentos inesquecíveis através do prazer da leitura. Venha fazer parte desta jornada connosco.</p>
 </section>
 
-<!-- <section class="recommendations">
+ <section class="recommendations">
             <h1 class="section-title">Recomendações com base em compras anteriores</h1>
             <div class="flex-books" id="book-container">
                
@@ -487,9 +496,8 @@ $recomendacoes = $data['recomendacoes'] ?? [];
                 });
             }
 
-    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);   
-</section>-->
-
+    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
+</section>
 
 <h1>Recomendações de Livros</h1>
     <?php if (empty($recomendacoes)): ?>
@@ -505,7 +513,6 @@ $recomendacoes = $data['recomendacoes'] ?? [];
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-
 
 <section class="home-contact">
     <div class="content">
