@@ -32,9 +32,9 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Read JSON file with book recommendations
-$json_path = 'recommendations.json';
+$json_path = 'recomendacoes.json';
 if (file_exists($json_path)) {
-    $json_file = file_get_contents('../recommendations.json');
+    $json_file = file_get_contents('../recomendacoes.json');
     $recommendations = json_decode($json_file, true);
 } else {
     $recommendations = [];
@@ -528,22 +528,6 @@ if (file_exists($json_path)) {
    <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
    <div class="flex-books" id="book-container">
       <!-- Dynamic content (books) will be inserted here -->
-      const flexBooks = document.getElementById("book-container");
-      data.recomendacoes.forEach(livro => {
-      const bookElement = `
-        <div class="book">
-            <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
-            <div class="carousel-item-info">
-                <h3 class="book-title">${livro.name}</h3>
-                <p class="price">€${livro.price.toFixed(2)}</p>
-                <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
-                    <span class="material-icons">local_mall</span> Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    `;
-    flexBooks.innerHTML += bookElement;
-});
    </div>
 </section>
 
@@ -579,7 +563,7 @@ if (file_exists($json_path)) {
             const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
 
             // Append each book to the container
-            recomendacoesLimitadas.forEach(livro => {
+            /*recomendacoesLimitadas.forEach(livro => {
                 const bookElement = `
                     <div class="book">
                         <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
@@ -593,7 +577,23 @@ if (file_exists($json_path)) {
                     </div>
                 `;
                 flexBooks.innerHTML += bookElement;
-            });
+            });*/
+            const flexBooks = document.getElementById("book-container");
+      data.recomendacoes.forEach(livro => {
+      const bookElement = `
+        <div class="book">
+            <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+            <div class="carousel-item-info">
+                <h3 class="book-title">${livro.name}</h3>
+                <p class="price">€${livro.price.toFixed(2)}</p>
+                <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                    <span class="material-icons">local_mall</span> Adicionar ao Carrinho
+                </button>
+            </div>
+         </div>
+        `;
+        flexBooks.innerHTML += bookElement;
+     });
         } catch (error) {
             console.error("Erro ao carregar recomendações:", error);
             document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
@@ -604,6 +604,95 @@ if (file_exists($json_path)) {
     document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
 </script>
 
+
+<section class="recommendations">
+   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
+   <div class="flex-books">
+      <div class="book">
+         <img id="home_rec" src="images/book__3.jpg" alt="Book 1">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€22.59</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__4.jpg" alt="Book 2">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€17.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/home_book3.png" alt="Book 3">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€17.99</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+   </div>
+   
+   <div class="flex-books">
+      <div class="book">
+         <img id="home_rec" src="images/book__2.jpg" alt="Book 4">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€22.59</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__1.jpg" alt="Book 5">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+      <div class="book">
+         <img id="home_rec" src="images/book__3.jpg" alt="Book 6">
+         <div class="carousel-item-info">
+                    <h3>Título do Livro</h3>
+                    <p class="price">€9.50</p>
+                    <button class="add-to-cart-btn">
+                        <span class="material-icons">local_mall</span> Add to Cart
+                    </button>
+                </div>
+      </div>
+   </div>
+</section>
 
 <section class="home-contact">
     <div class="content">
