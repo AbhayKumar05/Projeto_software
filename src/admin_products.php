@@ -19,8 +19,8 @@ if (isset($_POST['add_product'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $author = mysqli_real_escape_string($conn, $_POST['author']);
     $genre_id = $_POST['genre_id'];
-    $price = number_format((float)$_POST['price'], 2, '.', ''); // Format as float with 2 decimals
-    $image = mysqli_real_escape_string($conn, $_FILES['image']['name']); // Escape the image name
+    $price = number_format((float)$_POST['price'], 2, '.', ''); 
+    $image = mysqli_real_escape_string($conn, $_FILES['image']['name']); 
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_size = $_FILES['image']['size'];
 
@@ -62,7 +62,7 @@ if (isset($_POST['update_product'])) {
     $update_name = $_POST['update_name'];
     $update_author = $_POST['update_author'];
     $update_genre_id = $_POST['update_genre_id'];
-    $update_price = number_format((float)$_POST['update_price'], 2, '.', ''); // Format as float with 2 decimals
+    $update_price = number_format((float)$_POST['update_price'], 2, '.', '');
 
     mysqli_query($conn, "UPDATE `products` SET name = '$update_name', author = '$update_author', genre_id = '$update_genre_id', price = '$update_price' WHERE id = '$update_p_id'") or die('Query failed');
 

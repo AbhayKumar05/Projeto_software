@@ -64,27 +64,40 @@ def recomendar():
 
         # Load product data
         produtos = carregar_dados_produtos()
+        print("Produtos carregados:", produtos)
+
+        # Preprocess data and train KMeans
         dados_produtos, df = preprocessar_dados(produtos)
+        print("Dados preprocessados:", df)
         kmeans = treinar_kmeans(dados_produtos)
         df['cluster'] = kmeans.labels_
+        print("Clusters atribuídos:", df[['id', 'cluster']])
 
         # Load purchased product IDs
         produtos_comprados_ids = carregar_historico_compras(user_id)
+        print("Produtos comprados pelo usuário:", produtos_comprados_ids)
         if not produtos_comprados_ids:
             return jsonify({"recomendacoes": [], "mensagem": "Nenhum histórico de compras encontrado."}), 200
 
         # Determine clusters of purchased products
         clusters_comprados = df[df['id'].isin(produtos_comprados_ids)]['cluster'].unique()
+        print("Clusters dos produtos comprados:", clusters_comprados)
 
         # Recommend products not purchased but in the same cluster
         recomendacoes = df[df['cluster'].isin(clusters_comprados) & ~df['id'].isin(produtos_comprados_ids)]
-        recomendacoes_json = recomendacoes[["id", "name", "price", "image", "author", "genre"]].to_dict(orient='records')
+        print("Recomendações antes de conversão para JSON:", recomendacoes)
 
-        # Return the recommendations as JSON
+        # Convert recommendations to JSON
+        recomendacoes_json = recomendacoes[["id", "name", "price", "image", "author", "genre"]].to_dict(orient='records')
+        print("Recomendações JSON:", recomendacoes_json)
+
         return jsonify({"recomendacoes": recomendacoes_json}), 200
     except Exception as e:
+        print("Erro:", str(e))
         return jsonify({"erro": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
 

@@ -31,16 +31,45 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 
-// Read JSON file with book recommendations
-$json_path = 'recommendations.json';
-if (file_exists($json_path)) {
-    $json_file = file_get_contents($json_path);
-    $recommendations = json_decode($json_file, true);
-} else {
-    $recommendations = [];
-    error_log("File not found: $json_path");
+// URL do endpoint no Flask
+$api_url = "http://localhost:5000/recomendar";
+
+// Configurar a solicitação cURL
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+
+// Definir cabeçalhos e sessão para autenticação
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'Authorization: Bearer ' . session_id(), // Enviar o ID da sessão para autenticação
+]);
+
+// Executar a solicitação
+$response = curl_exec($ch);
+
+// Verificar se ocorreu um erro
+if (curl_errno($ch)) {
+    echo "Erro ao conectar ao servidor de recomendações: " . curl_error($ch);
+    curl_close($ch);
+    exit;
 }
 
+// Fechar a conexão cURL
+curl_close($ch);
+
+// Decodificar a resposta JSON
+$data = json_decode($response, true);
+
+// Verificar erros na resposta
+if (isset($data['erro'])) {
+    echo "Erro do servidor: " . $data['erro'];
+    exit;
+}
+
+// Exibir as recomendações na página
+$recomendacoes = $data['recomendacoes'] ?? [];
 ?>
 
 
@@ -241,9 +270,6 @@ if (file_exists($json_path)) {
 </section>
 
 
-
-
-
 <!--<section class="carousel">
     <h1 class="cormorant-garamond-bold">Últimos Lançamentos</h1>
     <div class="carousel-container">
@@ -406,11 +432,6 @@ if (file_exists($json_path)) {
     </div>
 </div>
 
-
-
-
-
-
  <section class="image-section">
    <div class="image-container first-image">
       <img src="images/home_book4.png" alt="First Image">
@@ -470,274 +491,21 @@ if (file_exists($json_path)) {
 </section>-->
 
 
-<!--<script>
-    async function carregarRecomendacoes() {
-        try {
-           
-            const userId = document.body.dataset.userId;
+<h1>Recomendações de Livros</h1>
+    <?php if (empty($recomendacoes)): ?>
+        <p>Nenhuma recomendação disponível no momento.</p>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($recomendacoes as $livro): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($livro['name']); ?></strong><br>
+                    Preço: <?php echo htmlspecialchars($livro['price']); ?>€<br>
+                    Categoria: <?php echo htmlspecialchars($livro['category']); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
-            const response = await fetch("http://127.0.0.1:5000/recomendar", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    user_id: userId
-                })
-            });
-
-            const data = await response.json();
-            const flexBooks = document.getElementById("book-container");
-
-            
-            flexBooks.innerHTML = "";
-
-            
-            if (data.recomendacoes.length === 0) {
-                flexBooks.innerHTML = "<p>Nenhuma recomendação disponível no momento.</p>";
-                return;
-            }
-            
-            const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
-
-            
-            recomendacoesLimitadas.forEach(livro => {
-                const bookElement = `
-                    <div class="book">
-                        <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
-                        <div class="book-info">
-                            <h3 class="book-title">${livro.name}</h3>
-                            <p class="book-price">€${livro.price.toFixed(2)}</p>
-                            <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
-                                <span class="material-icons" aria-hidden="true">local_mall</span> Adicionar ao Carrinho
-                            </button>
-                        </div>
-                    </div>
-                `;
-                flexBooks.innerHTML += bookElement;
-            });
-        } catch (error) {
-            console.error("Erro ao carregar recomendações:", error);
-            document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
-        }
-    }
-    
-    const userId = "{{ session['user_id'] }}";
-</script>-->
-
-<section class="recommendations">
-   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
-   <div class="flex-books" id="book-container">
-      <!-- Dynamic content (books) will be inserted here -->
-   </div>
-</section>
-<?php
-// Path to the recommendations file
-$json_path = 'recommendations.json';
-
-// Load recommendations if file exists
-if (file_exists($json_path)) {
-    $json_file = file_get_contents($json_path);
-    $recommendations = json_decode($json_file, true)['recomendacoes'];
-} else {
-    $recommendations = [];
-    error_log("File not found: $json_path");
-}
-
-// Display recommendations
-if (!empty($recommendations)) {
-    foreach ($recommendations as $product) {
-        ?>
-        <div class="carousel-item">
-            <img src="uploaded_img/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="carousel-image">
-            <div class="carousel-item-info">
-                <h3><?php echo $product['name']; ?></h3>
-                <p class="author">Autor: <?php echo $product['author']; ?></p>
-                <p class="genre">Gênero: <?php echo $product['genre']; ?></p>
-                <p class="price">€<?php echo number_format($product['price'], 2); ?></p>
-                <form action="" method="post">
-                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                    <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
-                    <input type="hidden" name="product_price" value="<?php echo $product['price']; ?>">
-                    <input type="hidden" name="product_image" value="<?php echo $product['image']; ?>">
-                    <input type="number" name="product_quantity" value="1" min="1" class="quantity-box">
-                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </form>
-            </div>
-        </div>
-        <?php
-    }
-} else {
-    echo '<p class="empty">Sem recomendações disponíveis!</p>';
-}
-?>
-
-
-
-<script>
-    async function carregarRecomendacoes() {
-        try {
-            const userId = document.body.dataset.userId || 1; // Replace 1 with a dynamic user ID if necessary
-
-            const response = await fetch("http://127.0.0.1:5000/recomendar", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    user_id: userId
-                })
-            });
-
-            const data = await response.json();
-            const flexBooks = document.getElementById("book-container");
-
-            // Clear the container before adding new recommendations
-            flexBooks.innerHTML = "";
-
-            // Check if there are recommendations
-            if (data.recomendacoes.length === 0) {
-                flexBooks.innerHTML = "<p>Nenhuma recomendação disponível no momento.</p>";
-                return;
-            }
-
-
-            // Limit recommendations to a maximum of 8 items
-            const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
-
-            // Append each book to the container
-            /*recomendacoesLimitadas.forEach(livro => {
-                const bookElement = `
-                    <div class="book">
-                        <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
-                        <div class="carousel-item-info">
-                            <h3 class="book-title">${livro.name}</h3>
-                            <p class="price">€${livro.price.toFixed(2)}</p>
-                            <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
-                                <span class="material-icons">local_mall</span> Adicionar ao Carrinho
-                            </button>
-                        </div>
-                    </div>
-                `;
-                flexBooks.innerHTML += bookElement;
-            });*/
-            const flexBooks = document.getElementById("book-container");
-            data.recomendacoes.forEach(livro => {
-                onst bookElement = `
-                 <div class="book">
-                 <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
-                    <div class="carousel-item-info">
-                        <h3 class="book-title">${livro.name}</h3>
-                        <p class="price">€${livro.price.toFixed(2)}</p>
-                        <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
-                        <span class="material-icons">local_mall</span> Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-                `;
-            flexBooks.innerHTML += bookElement;
-        });
-        } catch (error) {
-            console.error("Erro ao carregar recomendações:", error);
-            document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
-        }
-    }
-
-    // Trigger the function when the page is fully loaded
-    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
-</script>
-
-
-<section class="recommendations">
-   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
-   <div class="flex-books">
-      <div class="book">
-         <img id="home_rec" src="images/book__3.jpg" alt="Book 1">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€22.59</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__4.jpg" alt="Book 2">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€17.99</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/home_book3.png" alt="Book 3">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€17.99</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-   </div>
-   
-   <div class="flex-books">
-      <div class="book">
-         <img id="home_rec" src="images/book__2.jpg" alt="Book 4">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€22.59</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__1.jpg" alt="Book 5">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__5.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-      <div class="book">
-         <img id="home_rec" src="images/book__3.jpg" alt="Book 6">
-         <div class="carousel-item-info">
-                    <h3>Título do Livro</h3>
-                    <p class="price">€9.50</p>
-                    <button class="add-to-cart-btn">
-                        <span class="material-icons">local_mall</span> Add to Cart
-                    </button>
-                </div>
-      </div>
-   </div>
-</section>
 
 <section class="home-contact">
     <div class="content">
