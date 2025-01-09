@@ -13,19 +13,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    deploy:
-      replicas: 3
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "512M"
     ports:
-      - "9110:80"
+      - "9000:80"
     networks:
       - app-network
     depends_on:
       - db
-    command: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
 
   reverse-proxy:
     container_name: reverse-proxy-container
