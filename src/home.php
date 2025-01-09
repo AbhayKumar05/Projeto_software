@@ -1,11 +1,10 @@
 <?php
-include_once __DIR__ . '/src/config.php';
-
+include 'config.php';
 session_start();
+$user_id = $_SESSION['user_id'];
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($user_id)) {
     header('location:login.php');
-    exit();
 }
 
 if (isset($_POST['add_to_cart'])) {
@@ -31,45 +30,6 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Produto adicionado!';
     }
 }
-// URL do endpoint no Flask
-$api_url = "http://localhost:5000/recomendar";
-
-// Configurar a solicitação cURL
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $api_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-
-// Definir cabeçalhos e sessão para autenticação
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Authorization: Bearer ' . session_id(), // Enviar o ID da sessão para autenticação
-]);
-
-// Executar a solicitação
-$response = curl_exec($ch);
-
-// Verificar se ocorreu um erro
-if (curl_errno($ch)) {
-    echo "Erro ao conectar ao servidor de recomendações: " . curl_error($ch);
-    curl_close($ch);
-    exit;
-}
-
-// Fechar a conexão cURL
-curl_close($ch);
-
-// Decodificar a resposta JSON
-$data = json_decode($response, true);
-
-// Verificar erros na resposta
-if (isset($data['erro'])) {
-    echo "Erro do servidor: " . $data['erro'];
-    exit;
-}
-
-// Exibir as recomendações na página
-$recomendacoes = $data['recomendacoes'] ?? [];
 ?>
 
 
@@ -458,61 +418,61 @@ $recomendacoes = $data['recomendacoes'] ?? [];
    <p>Fundada com o objetivo de aproximar leitores de todo o mundo, oferecemos uma vasta seleção de títulos que despertam emoções, desafiam perspectivas e promovem o conhecimento. Cada livro é escolhido com cuidado, garantindo uma experiência única a cada leitura. Seja para explorar os grandes clássicos, descobrir novos talentos ou aprofundar o seu conhecimento, a nossa missão é proporcionar momentos inesquecíveis através do prazer da leitura. Venha fazer parte desta jornada connosco.</p>
 </section>
 
- <section class="recommendations">
-            <h1 class="section-title">Recomendações com base em compras anteriores</h1>
-            <div class="flex-books" id="book-container">
-               
-            </div>
-        </section>
-        <script>
-            async function carregarRecomendacoes() {
-                const response = await fetch("/recomendar", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        user_id: 1,
-                        preferencias: [20.00, 0, 5]
-                    })
-                });
-                const data = await response.json();
-                const flexBooks = document.getElementById("book-container");
-                flexBooks.innerHTML = "";
-                data.recomendacoes.forEach(livro => {
-                    const bookElement = `
-                        <div class="book">
-                            <img src="images/book_${livro['id']}.jpg" alt="Capa do ${livro['name']}" class="book-image">
-                            <div class="book-info">
-                                <h3 class="book-title">${livro['name']}</h3>
-                                <p class="book-price">€${livro['price'].toFixed(2)}</p>
-                                <button class="add-to-cart-btn" aria-label="Adicionar ${livro['name']} ao carrinho">
-                                    <span class="material-icons" aria-hidden="true">local_mall</span> Adicionar ao Carrinho
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    flexBooks.innerHTML += bookElement;
-                });
+
+<script>
+    async function carregarRecomendacoes() {
+        try {
+           
+            const userId = document.body.dataset.userId;
+
+            const response = await fetch("http://127.0.0.1:5000/recomendar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: userId
+                })
+            });
+
+            const data = await response.json();
+            const flexBooks = document.getElementById("book-container");
+
+            
+            flexBooks.innerHTML = "";
+
+            
+            if (data.recomendacoes.length === 0) {
+                flexBooks.innerHTML = "<p>Nenhuma recomendação disponível no momento.</p>";
+                return;
             }
+            
+            const recomendacoesLimitadas = data.recomendacoes.slice(0, 8);
 
-    document.addEventListener("DOMContentLoaded", carregarRecomendacoes);
-</section>
-
-<h1>Recomendações de Livros</h1>
-    <?php if (empty($recomendacoes)): ?>
-        <p>Nenhuma recomendação disponível no momento.</p>
-    <?php else: ?>
-        <ul>
-            <?php foreach ($recomendacoes as $livro): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($livro['name']); ?></strong><br>
-                    Preço: <?php echo htmlspecialchars($livro['price']); ?>€<br>
-                    Categoria: <?php echo htmlspecialchars($livro['category']); ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+            
+            recomendacoesLimitadas.forEach(livro => {
+                const bookElement = `
+                    <div class="book">
+                        <img src="images/book_${livro.id}.jpg" alt="Capa do ${livro.name}" class="book-image">
+                        <div class="book-info">
+                            <h3 class="book-title">${livro.name}</h3>
+                            <p class="book-price">€${livro.price.toFixed(2)}</p>
+                            <button class="add-to-cart-btn" aria-label="Adicionar ${livro.name} ao carrinho">
+                                <span class="material-icons" aria-hidden="true">local_mall</span> Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                `;
+                flexBooks.innerHTML += bookElement;
+            });
+        } catch (error) {
+            console.error("Erro ao carregar recomendações:", error);
+            document.getElementById("book-container").innerHTML = "<p>Ocorreu um erro ao carregar as recomendações.</p>";
+        }
+    }
+    
+    const userId = "{{ session['user_id'] }}";
+</script>
 
 <section class="home-contact">
     <div class="content">

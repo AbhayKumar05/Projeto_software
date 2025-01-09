@@ -53,7 +53,7 @@ section{
 .empty{
    padding:1.5rem;
    text-align: center;
-   /*border:var(--border);*/
+   border:var(--border);
    background-color: var(--white);
    color:var(--red);
    font-size: 2rem;
@@ -404,7 +404,7 @@ section{
 .main_image img {
    width: 70%; 
    height: auto;
-   padding-bottom: 25px;
+   padding-bottom: 12px;
 }
 
 .main_tag {
