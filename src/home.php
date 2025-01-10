@@ -8,24 +8,22 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['add_to_cart'])) {
-    $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_price = floatval($_POST['product_price']);
     $product_image = $_POST['product_image'];
     $product_quantity = intval($_POST['product_quantity']);
 
     $check_cart_numbers = mysqli_query($conn, "
-        SELECT * 
-        FROM `cart` 
-        WHERE product_id = '$product_id' AND user_id = '$user_id'
+        SELECT * FROM cart 
+        WHERE name = '$product_name' AND user_id = '$user_id'
     ") or die('Query failed');
 
     if (mysqli_num_rows($check_cart_numbers) > 0) {
-        $message[] = 'Já está no carrinho!';
+        $message[] = 'Já adicionado ao Carrinho!';
     } else {
         mysqli_query($conn, "
-            INSERT INTO `cart` (user_id, product_id, name, price, quantity, image) 
-            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
+            INSERT INTO cart(user_id, name, price, quantity, image) 
+            VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
         ") or die('Query failed');
         $message[] = 'Produto adicionado!';
     }
@@ -417,6 +415,15 @@ if (isset($_POST['add_to_cart'])) {
    <p>Na Ventorim's Book Store, acreditamos que os livros têm o poder de transformar vidas. Somos mais do que uma livraria; somos um espaço onde a imaginação não tem limites e cada página vira uma nova descoberta.</p>
    <p>Fundada com o objetivo de aproximar leitores de todo o mundo, oferecemos uma vasta seleção de títulos que despertam emoções, desafiam perspectivas e promovem o conhecimento. Cada livro é escolhido com cuidado, garantindo uma experiência única a cada leitura. Seja para explorar os grandes clássicos, descobrir novos talentos ou aprofundar o seu conhecimento, a nossa missão é proporcionar momentos inesquecíveis através do prazer da leitura. Venha fazer parte desta jornada connosco.</p>
 </section>
+
+
+<section class="recommendations">
+   <h1 class="cormorant-garamond-bold">Recomendações com base em compras anteriores</h1>
+   <div class="flex-books" id="book-container">
+      <!-- Dynamic content will be inserted here -->
+   </div>
+</section>
+
 
 
 <script>

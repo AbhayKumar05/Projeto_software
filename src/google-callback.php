@@ -7,7 +7,7 @@ session_start();
 $client = new \League\OAuth2\Client\Provider\Google([
     'clientId'     => '653769600039-4mbmbudces4bdbi6qrtbdb5jkfv5ognu.apps.googleusercontent.com',
     'clientSecret' => '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',
-    'redirectUri'  => 'http://localhost:8888/src/google-callback.php',
+    'redirectUri' => 'http://localhost:8888/src/google-callback.php',  
 ]);
 
 if (isset($_GET['code'])) {
