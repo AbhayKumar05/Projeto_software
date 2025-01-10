@@ -1,5 +1,8 @@
 <?php
-include 'config.php';
+//include 'config.php';
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
+
 session_start();
 if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
