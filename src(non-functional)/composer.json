@@ -1,6 +1,0 @@
-{
-    "require": {
-        "league/oauth2-google": "^4.0",
-        "stripe/stripe-php": "^16.4"
-    }
-}
