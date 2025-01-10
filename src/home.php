@@ -1,11 +1,18 @@
 <?php
-include 'config.php';
-session_start();
-$user_id = $_SESSION['user_id'];
+// include 'config.php';
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
 
-if (!isset($user_id)) {
+session_start();
+
+// Check if user_id is set in the session
+if (!isset($_SESSION['user_id'])) {
     header('location:login.php');
+    exit(); // Make sure to stop further execution
 }
+
+// Now, it is safe to access $_SESSION['user_id']
+$user_id = $_SESSION['user_id'];
 
 if (isset($_POST['add_to_cart'])) {
     $product_name = $_POST['product_name'];
@@ -13,6 +20,7 @@ if (isset($_POST['add_to_cart'])) {
     $product_image = $_POST['product_image'];
     $product_quantity = intval($_POST['product_quantity']);
 
+    // Check if product is already in the cart
     $check_cart_numbers = mysqli_query($conn, "
         SELECT * FROM cart 
         WHERE name = '$product_name' AND user_id = '$user_id'
@@ -21,6 +29,7 @@ if (isset($_POST['add_to_cart'])) {
     if (mysqli_num_rows($check_cart_numbers) > 0) {
         $message[] = 'Já adicionado ao Carrinho!';
     } else {
+        // Insert the product into the cart
         mysqli_query($conn, "
             INSERT INTO cart(user_id, name, price, quantity, image) 
             VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')
@@ -29,6 +38,7 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 ?>
+
 
 
 

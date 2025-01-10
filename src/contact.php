@@ -1,24 +1,48 @@
 <?php
- include 'config.php';
- session_start();
- $user_id = $_SESSION['user_id'];
- if(!isset($user_id)){
-    header('location:login.php');
-   }
- if(isset($_POST['send'])){
+include 'config.php';
+session_start(); // Ensure session is started
+
+// Check if user_id is set in the session before proceeding
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page if user is not logged in
+    header('Location: login.php');
+    exit(); // Make sure to stop script execution after the redirect
+}
+
+$user_id = $_SESSION['user_id']; // Get user_id from session
+
+// Handle form submission
+if (isset($_POST['send'])) {
+    // Sanitize input data to prevent SQL injection
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $number = $_POST['number'];
     $msg = mysqli_real_escape_string($conn, $_POST['message']);
-    $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE name = '$name' AND email = '$email' AND number = '$number' AND message = '$msg'") or die('query failed');
-    if(mysqli_num_rows($select_message) > 0){
-       $message[] = 'Message sent already!';
-    }else{
-        mysqli_query($conn, "INSERT INTO `message`(user_id, name, email, number, message) VALUES('$user_id', '$name', '$email', '$number', '$msg')") or die('query failed');
-       $message[] = 'Message sent successfully!';
-      }
-   }
+
+    // Check if the message already exists in the database
+    $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE name = '$name' AND email = '$email' AND number = '$number' AND message = '$msg'") or die('Query failed');
+    
+    if (mysqli_num_rows($select_message) > 0) {
+        $message[] = 'Message already sent!';
+    } else {
+        // Check if user_id is a valid integer before insertion
+        if (!empty($user_id) && is_numeric($user_id)) {
+            // Insert the message into the database
+            $query = "INSERT INTO `message` (user_id, name, email, number, message) 
+                      VALUES ('$user_id', '$name', '$email', '$number', '$msg')";
+            $result = mysqli_query($conn, $query) or die('Query failed');
+            
+            if ($result) {
+                $message[] = 'Message sent successfully!';
+            }
+        } else {
+            $message[] = 'Invalid user ID.';
+        }
+    }
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

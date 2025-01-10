@@ -1,29 +1,43 @@
 <?php
-include 'config.php';
+// Include the database configuration file
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
+
 session_start();
 
-$user_id = $_SESSION['user_id'];
-if (!isset($user_id)) {
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
     header('location:login.php');
+    exit();
 }
 
+$user_id = $_SESSION['user_id']; // Logged-in user ID
+
+// Update cart item quantity
 if (isset($_POST['update_cart'])) {
     $cart_id = $_POST['cart_id'];
     $cart_quantity = $_POST['cart_quantity'];
+
     mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id = '$cart_id'") or die('Query failed');
     $message[] = 'Quantidade atualizada!';
 }
 
+// Delete a specific cart item
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
+
     mysqli_query($conn, "DELETE FROM `cart` WHERE id = '$delete_id'") or die('Query failed');
     header('location:cart.php');
+    exit();
 }
 
+// Delete all cart items for the current user
 if (isset($_GET['delete_all'])) {
     mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('Query failed');
     header('location:cart.php');
+    exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -63,10 +77,10 @@ if (isset($_GET['delete_all'])) {
         ?>
         <div class="box">
             <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Tirar do Carrinho?');"></a>
-            <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
-            <div class="name"><?php echo $fetch_cart['name']; ?></div>
-            <div class="author">Autor: <?php echo $fetch_cart['author']; ?></div>
-            <div class="genre">Gênero: <?php echo $fetch_cart['genre_name']; ?></div>
+            <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="<?php echo htmlspecialchars($fetch_cart['name']); ?>">
+            <div class="name"><?php echo htmlspecialchars($fetch_cart['name']); ?></div>
+            <div class="author">Autor: <?php echo htmlspecialchars($fetch_cart['author']); ?></div>
+            <div class="genre">Gênero: <?php echo htmlspecialchars($fetch_cart['genre_name']); ?></div>
             <div class="price">€<?php echo number_format($fetch_cart['price'], 2, '.', ''); ?></div>
             <form action="" method="post">
                 <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
@@ -85,11 +99,11 @@ if (isset($_GET['delete_all'])) {
     </div>
 
     <div style="margin-top: 2rem; text-align:center;">
-        <a href="cart.php?delete_all" class="delete-btn <?php  echo ($grand_total > 0) ? '' : 'disabled'; ?>" onclick="return confirm('delete all from cart?');">Retirar tudo</a>
+        <a href="cart.php?delete_all" class="delete-btn <?php  echo ($grand_total > 0) ? '' : 'disabled'; ?>" onclick="return confirm('Retirar tudo do carrinho?');">Retirar tudo</a>
     </div>
 
     <div class="cart-total">
-        <p>Grand total: <span>€<?php echo number_format($grand_total, 2, '.', ''); ?>/-</span></p>
+        <p>Total Geral: <span>€<?php echo number_format($grand_total, 2, '.', ''); ?></span></p>
         <div class="flex">
             <a href="shop.php" class="option-btn">Continue Comprando</a>
             <a href="checkout.php" class="btn <?php echo ($grand_total > 0) ? '' : 'disabled'; ?>">Finalizar</a>

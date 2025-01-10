@@ -1,0 +1,109 @@
+-- Create the users table
+CREATE TABLE users (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    user_type VARCHAR(20) NOT NULL
+);
+
+-- Create the genres table
+CREATE TABLE genres (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Create the message table
+CREATE TABLE message (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    number VARCHAR(12),
+    message VARCHAR(500)
+);
+
+-- Create the orders table
+CREATE TABLE orders (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    number VARCHAR(12),
+    email VARCHAR(100) NOT NULL,
+    method VARCHAR(50),
+    address VARCHAR(500),
+    total_products VARCHAR(1000),
+    total_price FLOAT NOT NULL,
+    placed_on VARCHAR(50),
+    payment_status VARCHAR(20)
+);
+
+-- Create the products table
+CREATE TABLE products (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price FLOAT(10,2) NOT NULL,
+    image VARCHAR(100),
+    author VARCHAR(100),
+    genre_id BIGINT UNSIGNED,
+    genreproducts VARCHAR(100)
+);
+
+
+-- Create the products cart
+CREATE TABLE cart (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    price FLOAT(10, 2) NOT NULL,
+    quantity INT NOT NULL,
+    image VARCHAR(255),
+);
+
+
+INSERT INTO users (name, email, password, user_type) 
+VALUES ('John Doe', 'johndoe@example.com', MD5('password123'), 'user');
+
+INSERT INTO users (name, email, password, user_type) 
+VALUES ('Jane Admin', 'janeadmin@example.com', MD5('adminpassword'), 'admin');
+
+INSERT INTO genres (name) VALUES
+('Romance'),
+('Novela'),
+('Conto'),
+('Crônica'),
+('Poema'),
+('Canção'),
+('Drama histórico'),
+('Teatro de vanguarda'),
+('Fantasia'),
+('Ficção científica'),
+('Distopia'),
+('Ação e aventura'),
+('Ficção Policial'),
+('Horror'),
+('Thriller e Suspense'),
+('Ficção histórica'),
+('Ficção Feminina'),
+('LGBTQ+'),
+('Ficção Contemporânea'),
+('Realismo mágico'),
+('Graphic Novel'),
+('Young adult – Jovem adulto'),
+('New adult – Novo Adulto'),
+('Infantil'),
+('Memórias e autobiografia'),
+('Biografia'),
+('Gastronomia'),
+('Arte e Fotografia'),
+('Autoajuda'),
+('História'),
+('Viagem'),
+('Crimes Reais'),
+('Humor'),
+('Ensaios'),
+('Guias & Como fazer'),
+('Religião e Espiritualidade'),
+('Humanidades e Ciências Sociais'),
+('Paternidade e família'),
+('Tecnologia e Ciência');

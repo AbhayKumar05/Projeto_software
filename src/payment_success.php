@@ -1,6 +1,9 @@
-<?php  
+<?php
+//include 'config.php';
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
+
 session_start();
-require 'config.php'; 
 
 if (!isset($_GET['payment_intent'])) {
     header('location:checkout.php');

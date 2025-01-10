@@ -1,31 +1,35 @@
 <?php
-include 'config.php';
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
+
 session_start();
 
-$admin_id = $_SESSION['admin_id'];
-if (!isset($admin_id)) {
+if (!isset($_SESSION['admin_id'])) {
     header('location:login.php');
+    exit;
 }
 
+$admin_id = $_SESSION['admin_id'];
+
+// Ensure correct column type for price
 mysqli_query($conn, "ALTER TABLE `products` MODIFY COLUMN `price` FLOAT(10, 2) NOT NULL") or die('Query failed');
 
+// Fetch genres
 $genres_query = mysqli_query($conn, "SELECT * FROM `genres`") or die('Query failed');
 $genres = [];
 while ($row = mysqli_fetch_assoc($genres_query)) {
     $genres[] = $row;
 }
 
+// Add product
 if (isset($_POST['add_product'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $author = mysqli_real_escape_string($conn, $_POST['author']);
     $genre_id = $_POST['genre_id'];
-    $price = number_format((float)$_POST['price'], 2, '.', ''); // Format as float with 2 decimals
-    $image = mysqli_real_escape_string($conn, $_FILES['image']['name']); // Escape the image name
+    $price = number_format((float)$_POST['price'], 2, '.', '');
+    $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_size = $_FILES['image']['size'];
-
-    $unique_image_name = uniqid() . '-' . $image;
-    $image_folder = 'uploaded_img/' . $unique_image_name;
 
     if ($image_size > 2000000) {
         $message[] = 'Image size is too large.';
@@ -34,56 +38,69 @@ if (isset($_POST['add_product'])) {
         if (mysqli_num_rows($select_product) > 0) {
             $message[] = 'Product already exists.';
         } else {
-            $query = "INSERT INTO `products` (name, author, genre_id, price, image) VALUES ('$name', '$author', '$genre_id', '$price', '$unique_image_name')";
-            $add_product = mysqli_query($conn, $query) or die(mysqli_error($conn));
-            if ($add_product) {
-                move_uploaded_file($image_tmp_name, $image_folder);
+            $unique_image_name = uniqid() . '-' . $image;
+            $image_folder = 'uploaded_img/' . $unique_image_name;
+
+            if (move_uploaded_file($image_tmp_name, $image_folder)) {
+                mysqli_query($conn, "INSERT INTO `products` (name, author, genre_id, price, image) VALUES ('$name', '$author', '$genre_id', '$price', '$unique_image_name')") or die('Query failed');
                 $message[] = 'Product added successfully!';
             } else {
-                $message[] = 'Failed to add product.';
+                $message[] = 'Failed to upload image.';
             }
         }
     }
 }
 
-// Delete a product
+// Delete product
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_image_query = mysqli_query($conn, "SELECT image FROM `products` WHERE id = '$delete_id'") or die('Query failed');
     $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-    unlink('uploaded_img/' . $fetch_delete_image['image']);
+
+    if (!empty($fetch_delete_image['image']) && file_exists('uploaded_img/' . $fetch_delete_image['image'])) {
+        unlink('uploaded_img/' . $fetch_delete_image['image']);
+    }
     mysqli_query($conn, "DELETE FROM `products` WHERE id = '$delete_id'") or die('Query failed');
     header('location:admin_products.php');
+    exit;
 }
 
-// Update a product
+// Update product
 if (isset($_POST['update_product'])) {
     $update_p_id = $_POST['update_p_id'];
     $update_name = $_POST['update_name'];
     $update_author = $_POST['update_author'];
     $update_genre_id = $_POST['update_genre_id'];
-    $update_price = number_format((float)$_POST['update_price'], 2, '.', ''); // Format as float with 2 decimals
+    $update_price = number_format((float)$_POST['update_price'], 2, '.', '');
 
     mysqli_query($conn, "UPDATE `products` SET name = '$update_name', author = '$update_author', genre_id = '$update_genre_id', price = '$update_price' WHERE id = '$update_p_id'") or die('Query failed');
 
     $update_image = $_FILES['update_image']['name'];
     $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
     $update_image_size = $_FILES['update_image']['size'];
-    $update_folder = 'uploaded_img/' . $update_image;
     $update_old_image = $_POST['update_old_image'];
 
     if (!empty($update_image)) {
+        $unique_image_name = uniqid() . '-' . $update_image;
+        $update_folder = 'uploaded_img/' . $unique_image_name;
+
         if ($update_image_size > 2000000) {
             $message[] = 'Image file size is too large';
-        } else {
-            mysqli_query($conn, "UPDATE `products` SET image = '$update_image' WHERE id = '$update_p_id'") or die('Query failed');
-            move_uploaded_file($update_image_tmp_name, $update_folder);
+        } else if (move_uploaded_file($update_image_tmp_name, $update_folder)) {
+            mysqli_query($conn, "UPDATE `products` SET image = '$unique_image_name' WHERE id = '$update_p_id'") or die('Query failed');
             unlink('uploaded_img/' . $update_old_image);
+            $message[] = 'Product updated successfully!';
+        } else {
+            $message[] = 'Failed to upload new image.';
         }
     }
+
     header('location:admin_products.php');
+    exit;
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

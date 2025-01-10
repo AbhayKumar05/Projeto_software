@@ -1,5 +1,8 @@
 <?php
- include 'config.php';
+//include 'config.php';
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/config.php';
+
  session_start(); 
  $admin_id = $_SESSION['admin_id'];
  if(!isset($admin_id)){

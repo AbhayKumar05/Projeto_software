@@ -35,6 +35,7 @@ services:
       - backend
 
   db:
+    container_name: database-container
     image: mysql:8.0
     restart: always
     environment:
